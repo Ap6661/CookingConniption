@@ -10,33 +10,43 @@ public class DisplayPanel extends JPanel
 {
   private static final long serialVersionUID = 1L;
 
-  private JPanel viewport;
+  private JPanel viewport = new JPanel();
   private Background background;
   private DialogueBox[] dialogueBoxes = { new DialogueBox(), new DialogueBox(), new DialogueBox(), new DialogueBox() };
   private String[] directions = { "North", "East", "South", "West" };
 
+  public static final int NORTH = 0;
+  public static final int EAST = 1;
+  public static final int SOUTH = 2;
+  public static final int WEST = 3;
+
   public DisplayPanel()
   {
     super(new BorderLayout());
-    this.setOpaque( false );
+    setOpaque(false);
 
     for (int i = 0; i < 4; i++)
     {
       add(this.dialogueBoxes[i], this.directions[i]);
     }
 
-    this.viewport = new JPanel();
-    this.viewport.setBackground(Color.cyan);
+    viewport.setBackground(Color.cyan);
     add(this.viewport, BorderLayout.CENTER);
-    
-    this.background = new Background(100, 20);
-    
+
+    background = new Background(100, 20);
+
+  }
+
+  public DialogueBox getDialogueBox(int direction)
+  {
+
+    return this.dialogueBoxes[direction];
   }
 
   @Override
   public void paintComponent(Graphics g)
   {
-    background.paint(g, this.getHeight(), this.getWidth());
+    background.paint(g, 0, 0, this.getHeight(), this.getWidth());
     super.paintComponent(g);
   }
 }

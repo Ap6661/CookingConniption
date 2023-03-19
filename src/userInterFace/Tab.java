@@ -20,14 +20,17 @@ public class Tab extends JButton
   private String name;
   private BufferedImage background;
   private String path;
-  private int xOffset; 
+  private int xOffset = -8;
+  private Color unlockedColor = Color.cyan;
+  private Color lockedColor = Color.gray;
+  private boolean unlocked = true;
 
   public Tab(String name, int height)
   {
     super();
     this.name = name;
-    this.xOffset = -8;
     int width = 30;
+
     setPreferredSize(new Dimension(width, height));
     setMinimumSize(new Dimension(width, height));
     setMaximumSize(new Dimension(width, height));
@@ -35,12 +38,7 @@ public class Tab extends JButton
     setOpaque(false);
     setBorderPainted(false);
 
-    loadBackground("res/Tab.png", Color.CYAN);
-  }
-
-  public Tab(String name)
-  {
-    this(name, 75);
+    loadBackground("res/Tab.png", unlockedColor);
   }
 
   public void loadBackground(String path, Color color)
@@ -53,8 +51,8 @@ public class Tab extends JButton
     {
       e.printStackTrace();
     }
-    
-    //coloring picture
+
+    // coloring picture
     for (int x = 0; x < image.getWidth(); x++)
     {
       for (int y = 0; y < image.getHeight(); y++)
@@ -72,46 +70,56 @@ public class Tab extends JButton
     this.path = path;
   }
 
-  public void loadBackground(Color color)
+  public void setColor(Color color)
   {
+    unlockedColor = color;
     loadBackground(this.path, color);
   }
 
   @Override
-  public void paintComponent(Graphics g)
+  public void paintComponent(Graphics aGraphics)
   {
-    // super.paintComponent(g);
-    Graphics2D g2d = (Graphics2D) g;
-    BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
-    Graphics2D g2dimg = (Graphics2D) img.getGraphics();
+    Graphics2D aGraphics2d = (Graphics2D) aGraphics;
 
-    paintBackground(g2dimg);
-    paintText(g2dimg);
-    g2dimg.dispose();
+    BufferedImage tempBufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+    Graphics2D tempGraphics2D = (Graphics2D) tempBufferedImage.getGraphics();
 
-    transpose(img, g2d);
+    paintBackground(tempGraphics2D);
+    paintText(tempGraphics2D);
+    tempGraphics2D.dispose();
 
+    transpose(tempBufferedImage, aGraphics2d);
   }
-  
-  public void setOffsetX( int offX )
+
+  public void setOffsetX(int offX)
   {
-    this.xOffset = offX; 
+    this.xOffset = offX;
   }
-  
+
+  public boolean isUnlocked()
+  {
+    return unlocked;
+  }
+
+  public void setUnlocked(boolean unlocked)
+  {
+    this.unlocked = unlocked;
+    this.setEnabled(unlocked);
+    loadBackground(path, unlocked ? unlockedColor : lockedColor);
+    getParent().getParent().repaint();
+  }
+
   private void transpose(BufferedImage image, Graphics2D g2d)
   {
-    g2d.setClip(-4, 0, this.getWidth(), this.getHeight());
-    g2d.drawImage(image, this.xOffset, 0, this.getWidth(), this.getHeight(), null);
+    g2d.setClip(-4, 0, getWidth(), getHeight());
+    g2d.drawImage(image, xOffset, 0, getWidth(), getHeight(), null);
   }
 
   private void paintText(Graphics2D g2d)
   {
     Color oldPaint = g2d.getColor();
-
     g2d.setColor(Color.black);
-
     g2d.setFont(TAB_FONT);
-
     FontMetrics fm = g2d.getFontMetrics();
 
     int textW = fm.stringWidth(name);
@@ -124,13 +132,12 @@ public class Tab extends JButton
     g2d.drawString(this.name, 0, -1);
     g2d.rotate(-Math.PI / 2);
     g2d.translate(-textX, -textY);
-
     g2d.setColor(oldPaint);
   }
 
   private void paintBackground(Graphics2D g2d)
   {
-    g2d.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
+    g2d.drawImage(background, 0, 0, getWidth(), getHeight(), null);
   }
 
 }

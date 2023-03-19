@@ -1,5 +1,6 @@
 package userInterFace;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -12,14 +13,20 @@ public class Background
 {
   private BufferedImage image;
   private BufferedImage backdrop;
-  private String src = "res/Background.png";
+  private String src;
   private int dstBorder;
   private int srcBorder;
 
-  public Background(int dstBorder, int srcBorder)
+  public Background(int dstBorder, int srcBorder, String path)
   {
     this.dstBorder = dstBorder;
     this.srcBorder = srcBorder;
+    this.src = path;
+  }
+
+  public Background(int dstBorder, int srcBorder)
+  {
+    this(dstBorder, srcBorder, "res/Background.png");
   }
 
   private void loadImage(String path)
@@ -50,7 +57,7 @@ public class Background
     int[][] dstBounds = getSliceBounds(slice, this.backdrop, this.dstBorder);
     int[][] srcBounds = getSliceBounds(slice, this.image, this.srcBorder);
     bg2d.drawImage(this.image, dstBounds[0][0], dstBounds[0][1], dstBounds[1][0], dstBounds[1][1], srcBounds[0][0],
-        srcBounds[0][1], srcBounds[1][0], srcBounds[1][1], null);
+        srcBounds[0][1], srcBounds[1][0], srcBounds[1][1], new Color(0, 0, 0, 0), null);
   }
 
   private int[][] getSliceBounds(int slice, BufferedImage image, int borderWidth)
@@ -68,11 +75,12 @@ public class Background
     return output;
   }
 
-  public void paint(Graphics g, int w, int h)
+  public void paint(Graphics g, int x, int y, int w, int h)
   {
     if (this.backdrop == null)
     {
-      this.backdrop = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+      this.backdrop = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
       loadImage(this.src);
       updateBackground();
     }
@@ -80,7 +88,9 @@ public class Background
       updateBackground();
 
     Graphics2D g2d = (Graphics2D) g;
-    g2d.drawImage(this.backdrop, 0, 0, w, h, null);
+    g2d.drawImage(this.backdrop, x, y, w, h, null);
+
+    // g2d.drawImage(image, 0, 0, w, h, null);
   }
 
   public void setSrc(String path)

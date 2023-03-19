@@ -1,12 +1,10 @@
 package userInterFace;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
 import javax.swing.JToolBar;
 
 public class TabBar extends JToolBar
@@ -22,40 +20,29 @@ public class TabBar extends JToolBar
     this.tags = new ArrayList<Tab>();
     setFloatable(false);
     setOrientation(VERTICAL);
-    getInsets().set(0, 0, 0, 0);;
-    //setRollover(true);
+    getInsets().set(0, 0, 0, 0);
 
-    setMargin(new Insets(4, -9, 0, 0));
+    setMargin(new Insets(0, -3, 0, 0));
     setPreferredSize(new Dimension(40, 40));
-    setBackground(Color.black);
+    setOpaque(false);
+    addSeparator(new Dimension(0, 50));
 
-    addSeparator(new Dimension(0,45));
-    // Funtion-ize this VV
-    // Also this will eventually be the menu button to switch to the menu
-    // Currently just a QOL exit button
-    Tab button = new Tab("X", 30);
-    button.addActionListener((event) -> System.exit(0));
-    button.addMouseListener( this.tabListener );
-    tags.add(button);
-    add(button);
-    addSeparator();
-
-    addTab("Test");
-    addTab("0000");
-    addTab("Test");
-    addTab("Test");
-    
-    tags.get(0).loadBackground(Color.red);
   }
 
-
-  public void addTab(String name)
+  public Tab addTab(String name, int height)
   {
-    Tab button = new Tab(name);
+    Tab button = new Tab(name, height);
     tags.add(button);
     add(button);
-    addSeparator();
-    button.addMouseListener( this.tabListener );
+    addSeparator(new Dimension(0, 5));
+    button.addMouseListener(this.tabListener);
+    getParent().repaint();
+    return button;
+  }
+
+  public Tab addTab(String name)
+  {
+    return addTab(name, 75);
   }
 
   private class TabListener implements MouseListener
@@ -86,10 +73,11 @@ public class TabBar extends JToolBar
     public void mouseEntered(MouseEvent e)
     {
       Tab tab = (Tab) e.getSource();
-      tab.setOffsetX(-4);
+      if (tab.isUnlocked())
+        tab.setOffsetX(-4);
       TabBar.this.repaint();
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e)
     {
@@ -97,7 +85,7 @@ public class TabBar extends JToolBar
       tab.setOffsetX(-8);
       TabBar.this.repaint();
     }
-    
+
   }
 
 }
