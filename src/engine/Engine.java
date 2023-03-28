@@ -8,20 +8,18 @@ public class Engine
 {
   public static void main(String[] args)
   {
-   Window window = new Window();
-   window.setVisible(true);
+    Window window = new Window();
+    window.setVisible(true);
 
-   DisplayPanel display = window.getGameFrame().getDisplayPanel();
-   display.getDialogueBox(DisplayPanel.SOUTH).speak("This is a test");;
-   display.getDialogueBox(DisplayPanel.NORTH).speak("~");;
+    DisplayPanel display = window.getGameFrame().getDisplayPanel();
+    display.getDialogueBox(DisplayPanel.SOUTH).speak("This is a test");
+    display.getDialogueBox(DisplayPanel.NORTH).speak("~");
 
-  Tab locked = window.getGameFrame().getTabBar().addTab("Locked");
-  locked.setUnlocked(false);
+    Tab locked = window.getGameFrame().getTabBar().addTab("Locked");
+    locked.setUnlocked(false);
 
+    window.repaint();
 
-   window.repaint();
-   
-   
   }
 
 }

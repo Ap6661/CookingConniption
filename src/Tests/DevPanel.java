@@ -1,6 +1,7 @@
 package Tests;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -25,6 +26,7 @@ public class DevPanel
   {
     JFrame dev = new JFrame("DevPanel");
     dev.setVisible(true);
+    dev.setSize(new Dimension(500, 500));
     dev.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     JPanel pane = new JPanel();
     dev.getContentPane().add(pane);

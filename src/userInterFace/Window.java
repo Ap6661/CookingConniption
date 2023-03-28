@@ -28,16 +28,15 @@ public class Window extends JFrame
     frame.setVisible(false);
 
     getContentPane().add(menu);
-    //menu.add(new JButton(new ToggleMenuAction()));
+    // menu.add(new JButton(new ToggleMenuAction()));
 
-    Tab button2 = frame.getTabBar().addTab("X", 30);
-    button2.addActionListener((event) -> System.exit(0));
-    button2.setColor(Color.red);
+    menu.addMenuItem("Play", new ToggleMenuAction());
+    menu.addMenuItem();
+    menu.addMenuItem("Exit").addActionListener((event) -> System.exit(0));
 
     Tab button = frame.getTabBar().addTab("Menu");
     button.setAction(new ToggleMenuAction());
     button.setColor(Color.green);
-
 
     invalidate();
   }

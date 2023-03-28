@@ -2,8 +2,6 @@ package userInterFace;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -16,7 +14,6 @@ import javax.swing.JButton;
 public class Tab extends JButton
 {
   private static final long serialVersionUID = 1L;
-  private static final Font TAB_FONT = new Font("Hack NF", Font.BOLD, 15);
   private String name;
   private BufferedImage background;
   private String path;
@@ -115,24 +112,16 @@ public class Tab extends JButton
     g2d.drawImage(image, xOffset, 0, getWidth(), getHeight(), null);
   }
 
-  private void paintText(Graphics2D g2d)
+  private void paintText(Graphics2D aGraphics2D)
   {
-    Color oldPaint = g2d.getColor();
-    g2d.setColor(Color.black);
-    g2d.setFont(TAB_FONT);
-    FontMetrics fm = g2d.getFontMetrics();
+    int offset = -(getWidth() + 1);
+    aGraphics2D.rotate(Math.PI / 2);
+    aGraphics2D.translate(0, offset);
 
-    int textW = fm.stringWidth(name);
-    int textH = fm.getAscent();
-    int textX = (this.getWidth() - textH) / 2;
-    int textY = (this.getHeight() - textW) / 2;
+    TextRenderer.draw(aGraphics2D, name, getHeight(), getWidth());
 
-    g2d.translate(textX, textY);
-    g2d.rotate(Math.PI / 2);
-    g2d.drawString(this.name, 0, -1);
-    g2d.rotate(-Math.PI / 2);
-    g2d.translate(-textX, -textY);
-    g2d.setColor(oldPaint);
+    aGraphics2D.translate(0, -offset);
+    aGraphics2D.rotate(-Math.PI / 2);
   }
 
   private void paintBackground(Graphics2D g2d)
