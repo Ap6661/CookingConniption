@@ -10,7 +10,7 @@ public class DisplayPanel extends JPanel
 {
   private static final long serialVersionUID = 1L;
 
-  private JPanel viewport = new JPanel();
+  private Viewport viewport = new Viewport();
   private Background background;
   private DialogueBox[] dialogueBoxes = { new DialogueBox(), new DialogueBox(), new DialogueBox(), new DialogueBox() };
   private String[] directions = { "North", "East", "South", "West" };
