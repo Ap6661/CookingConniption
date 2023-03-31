@@ -43,6 +43,11 @@ public class DisplayPanel extends JPanel
     return this.dialogueBoxes[direction];
   }
 
+  public Viewport getViewport()
+  {
+    return this.viewport;
+  }
+
   @Override
   public void paintComponent(Graphics g)
   {

@@ -51,6 +51,7 @@ public class Background
     }
     bg2d.dispose();
   }
+  
 
   private void drawSlice(int slice, Graphics2D bg2d)
   {
@@ -85,7 +86,10 @@ public class Background
       updateBackground();
     }
     if (this.backdrop.getHeight() != h || this.backdrop.getWidth() != w)
+    {
+      this.backdrop = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
       updateBackground();
+    }
 
     Graphics2D g2d = (Graphics2D) g;
     g2d.drawImage(this.backdrop, x, y, w, h, null);

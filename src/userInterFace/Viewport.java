@@ -5,22 +5,21 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.OverlayLayout;
 
 public class Viewport extends JLayeredPane
 {
   private static final long serialVersionUID = 1L;
-  private JPanel drawerLayer = new JPanel(new BorderLayout(30, 30));
+  private JPanel drawerLayer = new JPanel(new BorderLayout(40, 40));
   private JPanel sceneLayer = new JPanel(new BorderLayout(30, 30));
+  private Scene activeScene;
 
-  private Dimension[] drawerSizes = { new Dimension(20, 20), new Dimension(150, 150) };
+  private Background background = new Background(100, 20);
 
   public Viewport()
   {
@@ -30,16 +29,13 @@ public class Viewport extends JLayeredPane
     add(drawerLayer, PALETTE_LAYER);
     add(sceneLayer, DEFAULT_LAYER);
 
-    // sceneLayer.setBounds(0, 0, 500, 500);
-    // drawerLayer.setBounds(0, 0, 500, 500);
+    setBackground(new Color(0, 0, 0, 0));
 
-    sceneLayer.setOpaque(true);
+    setOpaque(false);
+    sceneLayer.setOpaque(false);
     drawerLayer.setOpaque(false);
 
-    sceneLayer.setBackground(Color.red);
-    JButton tempJButton = new JButton();
-    tempJButton.setBackground(Color.red);
-    sceneLayer.add(tempJButton);
+    // sceneLayer.add(new Scene());
 
     addDrawer(BorderLayout.LINE_START);
     addDrawer(BorderLayout.LINE_END);
@@ -57,10 +53,34 @@ public class Viewport extends JLayeredPane
 
   private void addDrawer(String location)
   {
-    JPanel drawer = new JPanel();
-    drawer.addMouseListener(new DrawerListener());
-    drawer.setPreferredSize(drawerSizes[0]);
-    drawerLayer.add(drawer, location);
+    Drawer tempDrawer = new Drawer(location);
+    tempDrawer.addMouseListener(new DrawerListener());
+    drawerLayer.add(tempDrawer, location);
+  }
+
+  public JPanel getDrawerLayer()
+  {
+    return drawerLayer;
+  }
+
+  public JPanel getSceneLayer()
+  {
+    return sceneLayer;
+  }
+  
+  public void setScene(Scene aScene) {
+    if (activeScene != null) 
+      sceneLayer.remove(activeScene);
+    activeScene = aScene;
+    sceneLayer.add(activeScene);
+    getParent().revalidate();
+  }
+
+  @Override
+  public void paintComponent(Graphics aGraphics)
+  {
+    background.paint(aGraphics, 0, 0, getWidth(), getHeight());
+    // super.paintComponent(aGraphics);
   }
 
   private class DrawerListener implements MouseListener
@@ -68,6 +88,9 @@ public class Viewport extends JLayeredPane
     @Override
     public void mouseClicked(MouseEvent e)
     {
+      Drawer aDrawer = (Drawer) e.getSource();
+      aDrawer.setState(aDrawer.getState() != Drawer.OPENED ? Drawer.OPENED : Drawer.CLOSED);
+      aDrawer.revalidate();
     }
 
     @Override
@@ -83,23 +106,24 @@ public class Viewport extends JLayeredPane
     @Override
     public void mouseEntered(MouseEvent e)
     {
-      JPanel aJPanel = (JPanel) e.getSource();
-      aJPanel.setPreferredSize(drawerSizes[1]);
-      aJPanel.revalidate();
+      // Drawer aDrawer = (Drawer) e.getSource();
+      // aDrawer.setState(Drawer.OPENED);
+      // aDrawer.revalidate();
     }
 
     @Override
     public void mouseExited(MouseEvent e)
     {
-      JPanel aJPanel = (JPanel) e.getSource();
-      aJPanel.setPreferredSize(drawerSizes[0]);
-      aJPanel.revalidate();
+      // Drawer aDrawer = (Drawer) e.getSource();
+      // aDrawer.setState(Drawer.CLOSED);
+      // aDrawer.revalidate();
     }
 
   }
 
   private class ViewportLayout implements LayoutManager
   {
+    private int margin = 10;
 
     @Override
     public void addLayoutComponent(String name, Component comp)
@@ -114,13 +138,13 @@ public class Viewport extends JLayeredPane
     @Override
     public Dimension preferredLayoutSize(Container parent)
     {
-      return new Dimension(parent.getWidth(), parent.getHeight());
+      return new Dimension(parent.getWidth() - (2 * margin), parent.getHeight() - (2 * margin));
     }
 
     @Override
     public Dimension minimumLayoutSize(Container parent)
     {
-      return new Dimension(parent.getWidth(), parent.getHeight());
+      return new Dimension(parent.getWidth() - (2 * margin), parent.getHeight() - (2 * margin));
     }
 
     @Override
@@ -129,7 +153,8 @@ public class Viewport extends JLayeredPane
       Component[] aComponentList = parent.getComponents();
       for (int i = 0; i < aComponentList.length; i++)
       {
-        aComponentList[i].setBounds(0, 0, parent.getWidth(), parent.getHeight());
+        aComponentList[i].setBounds(margin, margin, parent.getWidth() - (margin * 2),
+            parent.getHeight() - (margin * 2));
       }
     }
   }

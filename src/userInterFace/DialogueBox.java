@@ -14,7 +14,7 @@ public class DialogueBox extends JPanel
   public DialogueBox()
   {
     super();
-    this.setPreferredSize(new Dimension(125, 125));
+    this.setPreferredSize(new Dimension(100, 100));
   }
   
   public void speak(String message)

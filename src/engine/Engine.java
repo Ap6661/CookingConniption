@@ -1,5 +1,6 @@
 package engine;
 
+import userInterFace.Cabinet;
 import userInterFace.DisplayPanel;
 import userInterFace.Tab;
 import userInterFace.Window;
@@ -18,6 +19,7 @@ public class Engine
     Tab locked = window.getGameFrame().getTabBar().addTab("Locked");
     locked.setUnlocked(false);
 
+    window.getGameFrame().getDisplayPanel().getViewport().setScene(new Cabinet());
     window.repaint();
 
   }
