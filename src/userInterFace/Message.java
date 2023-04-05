@@ -1,13 +1,10 @@
 package userInterFace;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 public class Message
 {
-  private static final Font MESSAGE_FONT = new Font("Hack NF", Font.BOLD, 15);
   private String message;
   private int xPosition;
   private int yPosition;
@@ -23,25 +20,25 @@ public class Message
 
   public void draw(Graphics2D aGraphics2D, int aWidth, int aHeight)
   {
-
     int xMargin = 20;
     int yMargin = 20;
 
+    Rectangle2D tempRectangle2D = TextRenderer.getBounds(aGraphics2D, message);
+    Rectangle2D backgroundRectangle2D = (Rectangle2D) tempRectangle2D.clone();
+
+    backgroundRectangle2D.add(tempRectangle2D.getMinX() - xMargin, tempRectangle2D.getMinY() - yMargin);
+    backgroundRectangle2D.add(tempRectangle2D.getMaxX() + xMargin, tempRectangle2D.getMaxY() + yMargin);
+
     // Center the text
-    FontMetrics fm = aGraphics2D.getFontMetrics();
-    int textW = fm.stringWidth(message) * 2;
-    int textH = fm.getAscent();
-    int textX = (aWidth - textW) / 2;
-    int textY = (aHeight + textH) / 2;
+    int textX = (int) (aWidth - tempRectangle2D.getMaxX()) / 2;
+    int textY = (int) (aHeight - tempRectangle2D.getMaxY()) / 2;
+    int textW = (int) tempRectangle2D.getMaxX();
+    int textH = (int) tempRectangle2D.getMaxY();
 
-    aGraphics2D.translate(textX, textY - textH);
-
-
+    aGraphics2D.translate(textX + xPosition, textY + yPosition);
     this.background.paint(aGraphics2D, -xMargin, -yMargin, textW + (xMargin * 2), textH + (yMargin * 2));
-
-    aGraphics2D.setColor(Color.BLACK);
-    aGraphics2D.setFont(MESSAGE_FONT);
-    aGraphics2D.drawString(message, 0, textH);
+    TextRenderer.draw(aGraphics2D, message, textW, textH);
+    aGraphics2D.translate(-textX + xPosition, -textY + yPosition);
   }
 
   public int getXPosition()

@@ -17,14 +17,15 @@ public class DialogueBox extends JPanel
     this.setPreferredSize(new Dimension(100, 100));
   }
   
-  public void speak(String message)
+  public Message speak(String message)
   {
-    speak(new Message(message));
+    return speak(new Message(message));
   }
 
-  public void speak(Message aMessage)
+  public Message speak(Message aMessage)
   {
     this.message = aMessage;
+    return aMessage;
   }
 
   @Override

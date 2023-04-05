@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 public class TextRenderer
 {
@@ -13,14 +14,14 @@ public class TextRenderer
   {
     Color oldPaint = aGraphics2D.getColor();
     aGraphics2D.setColor(Color.black);
-    
+
     Font tempFont = FONT.deriveFont((float) size);
     aGraphics2D.setFont(tempFont);
 
     // Calculate "Center"
-    FontMetrics tempFontMeterics = aGraphics2D.getFontMetrics();
-    int textW = tempFontMeterics.stringWidth(text);
-    int textH = tempFontMeterics.getAscent();
+    FontMetrics tempFontMetrics = aGraphics2D.getFontMetrics();
+    int textW = tempFontMetrics.stringWidth(text);
+    int textH = tempFontMetrics.getAscent();
     int textX = (width - textW) / 2;
     int textY = (height + textH) / 2;
 
@@ -31,6 +32,20 @@ public class TextRenderer
   public static void draw(Graphics2D aGraphics2D, String text, int width, int height)
   {
     draw(aGraphics2D, text, width, height, 15);
+  }
+
+  public static Rectangle2D getBounds(Graphics2D aGraphics2D, String text, int size)
+  {
+    Font tempFont = FONT.deriveFont((float) size);
+    aGraphics2D.setFont(tempFont);
+    FontMetrics tempFontMetrics = aGraphics2D.getFontMetrics();
+    return tempFontMetrics.getStringBounds(text, aGraphics2D);
+
+  }
+
+  public static Rectangle2D getBounds(Graphics2D aGraphics2D, String text)
+  {
+    return getBounds(aGraphics2D, text, 15);
   }
 
 }

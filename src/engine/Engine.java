@@ -3,6 +3,7 @@ package engine;
 import userInterFace.Cabinet;
 import userInterFace.DisplayPanel;
 import userInterFace.Freezer;
+import userInterFace.Message;
 import userInterFace.Tab;
 import userInterFace.Viewport;
 import userInterFace.Window;
@@ -16,10 +17,10 @@ public class Engine
 
     DisplayPanel display = window.getGameFrame().getDisplayPanel();
     display.getDialogueBox(DisplayPanel.SOUTH).speak("This is a test");
-    display.getDialogueBox(DisplayPanel.NORTH).speak("~");
+    display.getDialogueBox(DisplayPanel.EAST).speak("~");
 
-    Tab locked = window.getGameFrame().getTabBar().addTab("Locked");
-    locked.setUnlocked(false);
+    //Tab locked = window.getGameFrame().getTabBar().addTab("Locked");
+    //locked.setUnlocked(false);
     
     
     Viewport tempViewport = window.getGameFrame().getDisplayPanel().getViewport();
