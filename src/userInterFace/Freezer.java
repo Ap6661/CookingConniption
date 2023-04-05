@@ -1,17 +1,15 @@
 package userInterFace;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
-public class Cabinet extends Scene
+public class Freezer extends Scene
 {
   private static final long serialVersionUID = 1L;
 
-  public Cabinet()
+  public Freezer()
   {
-    setBackgroundPath("res/Shelves.png");
-    setName("Cabinet");
-    setTabColor(Color.red);
+    setBackgroundPath("res/Freezer.png");
+    setName("Freezer");
   }
 
   @Override

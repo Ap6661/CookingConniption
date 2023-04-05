@@ -1,5 +1,6 @@
 package userInterFace;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,16 +14,11 @@ public abstract class Scene extends JPanel
 {
   private static final long serialVersionUID = 1L;
   private BufferedImage background;
-
-  public Scene(String path)
-  {
-    setBackgroundPath(path);
-    this.setBorder(new EmptyBorder(40, 40, 40, 40));
-  }
+  private Color tabColor = Color.cyan;
 
   public Scene()
   {
-    this("res/Shelves.png");
+    this.setBorder(new EmptyBorder(40, 40, 40, 40));
   }
 
   public void setBackgroundPath(String path)
@@ -43,12 +39,24 @@ public abstract class Scene extends JPanel
     this.background = image;
   }
 
+  public Color getTabColor()
+  {
+    return tabColor;
+  }
+
+  public void setTabColor(Color tabColor)
+  {
+    this.tabColor = tabColor;
+  }
+
   @Override
   public void paintComponent(Graphics aGraphics)
   {
-    aGraphics.drawImage(background, 40, 40, getWidth() - 80, getHeight() - 80, null);
+    if (background != null)
+      aGraphics.drawImage(background, 40, 40, getWidth() - 80, getHeight() - 80, null);
     paintScene(aGraphics);
   }
 
   abstract void paintScene(Graphics aGraphics);
+
 }

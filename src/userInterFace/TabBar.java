@@ -11,13 +11,13 @@ public class TabBar extends JToolBar
 {
   private static final long serialVersionUID = 1L;
 
-  private ArrayList<Tab> tags;
+  private ArrayList<Tab> tabs;
   private TabListener tabListener = new TabListener();
 
   public TabBar()
   {
     super();
-    this.tags = new ArrayList<Tab>();
+    this.tabs = new ArrayList<Tab>();
     setFloatable(false);
     setOrientation(VERTICAL);
     getInsets().set(0, 0, 0, 0);
@@ -32,7 +32,7 @@ public class TabBar extends JToolBar
   public Tab addTab(String name, int height)
   {
     Tab button = new Tab(name, height);
-    tags.add(button);
+    tabs.add(button);
     add(button);
     addSeparator(new Dimension(0, 5));
     button.addMouseListener(this.tabListener);

@@ -30,6 +30,7 @@ public class TestViewport
     tempViewport.setPreferredSize(new Dimension(400,400));
     jframe.setVisible(true);
     
+    
     tempViewport.setScene(new Cabinet());
   }
 }

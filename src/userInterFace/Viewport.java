@@ -1,6 +1,7 @@
 package userInterFace;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -16,7 +17,7 @@ public class Viewport extends JLayeredPane
 {
   private static final long serialVersionUID = 1L;
   private JPanel drawerLayer = new JPanel(new BorderLayout(40, 40));
-  private JPanel sceneLayer = new JPanel(new BorderLayout(30, 30));
+  private JPanel sceneLayer = new JPanel(new CardLayout(30, 30));
   private Scene activeScene;
 
   private Background background = new Background(100, 20);
