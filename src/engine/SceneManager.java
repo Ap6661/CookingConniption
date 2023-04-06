@@ -11,6 +11,7 @@ import userInterFace.Viewport;
 public class SceneManager
 {
   private ArrayList<Scene> sceneList = new ArrayList<Scene>();
+  private ArrayList<Tab> tabList = new ArrayList<Tab>();
   private TabBar tabbar;
   private Scene activeScene;
   private Viewport viewport;
@@ -25,8 +26,9 @@ public class SceneManager
   {
     sceneList.add(aScene);
     Tab tempTab = tabbar.addTab(aScene.getName());
-    tempTab.setAction(new SwapScene(aScene, this));
+    tempTab.setAction(new SwapScene(aScene));
     tempTab.setColor(aScene.getTabColor());
+    tabList.add(tempTab);
   }
 
   public void setActive(Scene aScene)
@@ -40,22 +42,31 @@ public class SceneManager
     return activeScene;
   }
 
+  public Tab getTab(int index)
+  {
+    return tabList.get(index);
+  }
+
+  public Tab getTab(Scene aScene)
+  {
+    return getTab(sceneList.indexOf(aScene));
+
+  }
+
   private class SwapScene extends AbstractAction
   {
     private static final long serialVersionUID = 1L;
     private Scene scene;
-    private SceneManager sceneManager;
 
-    public SwapScene(Scene aScene, SceneManager aSceneManager)
+    public SwapScene(Scene aScene)
     {
       this.scene = aScene;
-      this.sceneManager = aSceneManager;
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-      sceneManager.setActive(scene);
+      setActive(scene);
     }
 
   }

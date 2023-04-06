@@ -8,6 +8,7 @@ public class Message
   private String message;
   private int xPosition;
   private int yPosition;
+  private int size = 15;
   private Background background;
 
   public Message(String message)
@@ -23,7 +24,7 @@ public class Message
     int xMargin = 20;
     int yMargin = 20;
 
-    Rectangle2D tempRectangle2D = TextRenderer.getBounds(aGraphics2D, message);
+    Rectangle2D tempRectangle2D = TextRenderer.getBounds(aGraphics2D, message, size);
     Rectangle2D backgroundRectangle2D = (Rectangle2D) tempRectangle2D.clone();
 
     backgroundRectangle2D.add(tempRectangle2D.getMinX() - xMargin, tempRectangle2D.getMinY() - yMargin);
@@ -37,7 +38,7 @@ public class Message
 
     aGraphics2D.translate(textX + xPosition, textY + yPosition);
     this.background.paint(aGraphics2D, -xMargin, -yMargin, textW + (xMargin * 2), textH + (yMargin * 2));
-    TextRenderer.draw(aGraphics2D, message, textW, textH);
+    TextRenderer.draw(aGraphics2D, message, textW, textH, size);
     aGraphics2D.translate(-textX + xPosition, -textY + yPosition);
   }
 

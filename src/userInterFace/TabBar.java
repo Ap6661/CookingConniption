@@ -45,6 +45,11 @@ public class TabBar extends JToolBar
     return addTab(name, 75);
   }
 
+  public Tab getTab(int index)
+  {
+    return tabs.get(index);
+  }
+
   private class TabListener implements MouseListener
   {
 
