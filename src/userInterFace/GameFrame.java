@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+
 public class GameFrame extends JPanel
 {
   private static final long serialVersionUID = 1L;
@@ -33,5 +34,10 @@ public class GameFrame extends JPanel
   public TabBar getTabBar()
   {
     return tabBar;
+  }
+
+  public void setViewportListener(ViewportListener aViewportListener)
+  {
+    displayPanel.setViewportListener(aViewportListener);
   }
 }

@@ -10,16 +10,31 @@ import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class Viewport extends JLayeredPane
+interface DrawerListener
+{
+  void slotPressed(Drawer aDrawer, Slot aSlot);
+}
+
+interface ViewportListener
+{
+  void slotPressed(Drawer aDrawer, Slot aSlot);
+}
+
+public class Viewport extends JLayeredPane implements DrawerListener
 {
   private static final long serialVersionUID = 1L;
   private JPanel drawerLayer = new JPanel(new BorderLayout(40, 40));
   private JPanel sceneLayer = new JPanel(new CardLayout(30, 30));
   private Scene activeScene;
 
+  private Drawer lineStartDrawer;
+  private Drawer lineEndDrawer;
+
+  private ViewportListener viewportListener;
   private Background background = new Background(100, 20);
 
   public Viewport()
@@ -36,10 +51,8 @@ public class Viewport extends JLayeredPane
     sceneLayer.setOpaque(false);
     drawerLayer.setOpaque(false);
 
-    // sceneLayer.add(new Scene());
-
-    addDrawer(BorderLayout.LINE_START);
-    addDrawer(BorderLayout.LINE_END);
+    lineStartDrawer = addDrawer(BorderLayout.LINE_START);
+    lineEndDrawer = addDrawer(BorderLayout.LINE_END);
     addDrawerSpacer(BorderLayout.PAGE_START);
     addDrawerSpacer(BorderLayout.PAGE_END);
 
@@ -52,11 +65,13 @@ public class Viewport extends JLayeredPane
     drawerLayer.add(tempJPanel, location);
   }
 
-  private void addDrawer(String location)
+  private Drawer addDrawer(String location)
   {
     Drawer tempDrawer = new Drawer(location);
     tempDrawer.addMouseListener(new DrawerListener());
+    tempDrawer.setDrawerListener(this);
     drawerLayer.add(tempDrawer, location);
+    return tempDrawer;
   }
 
   public JPanel getDrawerLayer()
@@ -64,13 +79,24 @@ public class Viewport extends JLayeredPane
     return drawerLayer;
   }
 
+  public Drawer getLineStartDrawer()
+  {
+    return lineStartDrawer;
+  }
+
+  public Drawer getLineEndDrawer()
+  {
+    return lineEndDrawer;
+  }
+
   public JPanel getSceneLayer()
   {
     return sceneLayer;
   }
-  
-  public void setScene(Scene aScene) {
-    if (activeScene != null) 
+
+  public void setScene(Scene aScene)
+  {
+    if (activeScene != null)
       sceneLayer.remove(activeScene);
     activeScene = aScene;
     sceneLayer.add(activeScene);
@@ -158,6 +184,18 @@ public class Viewport extends JLayeredPane
             parent.getHeight() - (margin * 2));
       }
     }
+  }
+
+  @Override
+  public void slotPressed(Drawer aDrawer, Slot aSlot)
+  {
+    if (viewportListener != null)
+      this.viewportListener.slotPressed(aDrawer, aSlot);
+  }
+
+  public void setViewportListener(ViewportListener aViewportListener)
+  {
+    this.viewportListener = aViewportListener;
   }
 }
 

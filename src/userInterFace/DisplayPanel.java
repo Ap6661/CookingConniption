@@ -54,6 +54,11 @@ public class DisplayPanel extends JPanel
     background.paint(g, 0, 0, this.getHeight(), this.getWidth());
     super.paintComponent(g);
   }
+
+  public void setViewportListener(ViewportListener aViewportListener)
+  {
+    viewport.setViewportListener(aViewportListener);
+  }
 }
 
 //

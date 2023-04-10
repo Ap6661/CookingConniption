@@ -11,6 +11,9 @@ public class Window extends JFrame
 
   private GameFrame frame = new GameFrame();
   private Menu menu = new Menu();
+  private ViewportHandler viewportHandler = new ViewportHandler();
+
+  private GameListener gameListener;
 
   public Window()
   {
@@ -28,7 +31,6 @@ public class Window extends JFrame
     frame.setVisible(false);
 
     getContentPane().add(menu);
-    // menu.add(new JButton(new ToggleMenuAction()));
 
     menu.addMenuItem("Play", new ToggleMenuAction());
     menu.addMenuItem();
@@ -37,6 +39,8 @@ public class Window extends JFrame
     Tab button = frame.getTabBar().addTab("Menu");
     button.setAction(new ToggleMenuAction());
     button.setColor(Color.green);
+
+    frame.setViewportListener(viewportHandler);
 
     invalidate();
   }
@@ -50,6 +54,11 @@ public class Window extends JFrame
   {
     return menu;
   }
+  
+  public Viewport getViewport()
+  {
+    return frame.getDisplayPanel().getViewport();
+  }
 
   private class ToggleMenuAction extends AbstractAction
   {
@@ -60,6 +69,21 @@ public class Window extends JFrame
     {
       menu.setVisible(!menu.isVisible());
       frame.setVisible(!frame.isVisible());
+    }
+  }
+
+  public void setGameListener(GameListener aGameListener)
+  {
+    gameListener = aGameListener;
+  }
+
+  private class ViewportHandler implements ViewportListener
+  {
+    @Override
+    public void slotPressed(Drawer aDrawer, Slot aSlot)
+    {
+      if (gameListener != null)
+        gameListener.slotPressed(aSlot);
     }
   }
 }
