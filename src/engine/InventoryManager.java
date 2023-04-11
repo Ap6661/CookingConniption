@@ -2,14 +2,19 @@ package engine;
 
 import java.util.ArrayList;
 
-import userInterFace.Holder;
+import userInterFace.CursorPane;
 import userInterFace.Slot;
 
 public class InventoryManager
 {
   private ArrayList<Inventory> inventories = new ArrayList<Inventory>();
-  private Holder holder = new Holder();
+  private CursorPane holder;
   private Item heldItem;
+
+  public void setHolder(CursorPane aCursorPane)
+  {
+    this.holder = aCursorPane;
+  }
 
   public void addInventory(Inventory aInventory)
   {
@@ -38,6 +43,7 @@ public class InventoryManager
   {
     aInventory.setItem(aSlot, heldItem);
     heldItem = aItem;
+    holder.setItem(aItem);
   }
 
 }

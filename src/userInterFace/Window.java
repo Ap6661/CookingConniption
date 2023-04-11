@@ -12,6 +12,7 @@ public class Window extends JFrame
   private GameFrame frame = new GameFrame();
   private Menu menu = new Menu();
   private ViewportHandler viewportHandler = new ViewportHandler();
+  private CursorPane cursorPane;
 
   private GameListener gameListener;
 
@@ -31,6 +32,10 @@ public class Window extends JFrame
     frame.setVisible(false);
 
     getContentPane().add(menu);
+
+    cursorPane = new CursorPane(getContentPane());
+    setGlassPane(cursorPane);
+    cursorPane.setVisible(true);
 
     menu.addMenuItem("Play", new ToggleMenuAction());
     menu.addMenuItem();
@@ -54,7 +59,7 @@ public class Window extends JFrame
   {
     return menu;
   }
-  
+
   public Viewport getViewport()
   {
     return frame.getDisplayPanel().getViewport();
@@ -69,6 +74,7 @@ public class Window extends JFrame
     {
       menu.setVisible(!menu.isVisible());
       frame.setVisible(!frame.isVisible());
+      cursorPane.setVisible(frame.isVisible());
     }
   }
 
@@ -85,6 +91,11 @@ public class Window extends JFrame
       if (gameListener != null)
         gameListener.slotPressed(aSlot);
     }
+  }
+
+  public CursorPane getCursorPane()
+  {
+    return this.cursorPane;
   }
 }
 

@@ -34,6 +34,7 @@ public class Slot extends JButton
   public void paintComponent(Graphics aGraphics)
   {
     background.paint(aGraphics, 0, 0, getWidth(), getHeight());
+    
 
     if (itemImage != null)
       aGraphics.drawImage(itemImage, 10, 10, getWidth() - 20, getHeight() - 20, null);

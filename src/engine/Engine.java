@@ -28,8 +28,10 @@ public class Engine
 
     display.getDialogueBox(DisplayPanel.SOUTH).speak("This is a test");
     display.getDialogueBox(DisplayPanel.EAST).speak("~");
+    
 
     tempSceneManager.addScene(new Cabinet());
+    tempSceneManager.setActive(0);
     tempSceneManager.addScene(new Freezer());
 
     tempSceneManager.addScene(new Cabinet());
@@ -48,6 +50,8 @@ public class Engine
 
     for (int i= 0; i < tempSlotList.length; i += 2) 
       tempItemList[i] = new Item(Color.red);
+    
+    inventoryManager.setHolder(window.getCursorPane());
     
     inventoryManager.makeInventory(tempSlotList).setItem(tempItemList);
     inventoryManager.makeInventory(tempViewport.getLineStartDrawer().getSlots());

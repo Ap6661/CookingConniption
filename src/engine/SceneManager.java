@@ -37,6 +37,12 @@ public class SceneManager
     viewport.setScene(aScene);
   }
 
+  public void setActive(int index)
+  {
+    this.activeScene = sceneList.get(index);
+    viewport.setScene(sceneList.get(index));
+  }
+
   public Scene getActive()
   {
     return activeScene;

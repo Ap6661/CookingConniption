@@ -41,11 +41,13 @@ public class Viewport extends JLayeredPane implements DrawerListener
   {
     super();
     setLayout(new ViewportLayout());
-
-    add(drawerLayer, PALETTE_LAYER);
-    add(sceneLayer, DEFAULT_LAYER);
+    
+    //add(holder);
+    add(drawerLayer);
+    add(sceneLayer);
 
     setBackground(new Color(0, 0, 0, 0));
+    
 
     setOpaque(false);
     sceneLayer.setOpaque(false);
