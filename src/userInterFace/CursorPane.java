@@ -21,6 +21,9 @@ public class CursorPane extends JComponent
 
   private Point point = new Point();
   private Item item;
+  private static int width = 64;
+  private static int height = 64;
+
   private JLabel holder = new JLabel()
   {
     private static final long serialVersionUID = 1L;
@@ -29,36 +32,27 @@ public class CursorPane extends JComponent
     public void paintComponent(Graphics aGraphics)
     {
       if (item != null)
-        aGraphics.drawImage(item.getImage(), 0, 0, 52, 52, null);
+        aGraphics.drawImage(item.getImage(), 0, 0, width, height, null);
     }
   };
 
   public CursorPane(Container aContainer)
   {
-    setVisible(true);
     setEnabled(false);
     setLayout(null);
-
     add(holder);
 
-    long eventMask = AWTEvent.MOUSE_MOTION_EVENT_MASK;
     Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener()
     {
       public void eventDispatched(AWTEvent aAWTEvent)
       {
         MouseEvent tempMouseEvent = (MouseEvent) aAWTEvent;
-        setPoint(SwingUtilities.convertPoint((Component) aAWTEvent.getSource(), tempMouseEvent.getPoint(), aContainer));
-
+        point = (SwingUtilities.convertPoint((Component) aAWTEvent.getSource(), tempMouseEvent.getPoint(), aContainer));
         point.translate(20, 20);
-        holder.setBounds(point.x, point.y, 52, 52);
+        holder.setBounds(point.x, point.y, width, height);
         repaint();
       }
-    }, eventMask);
-  }
-
-  public void setPoint(Point aPoint)
-  {
-    point = aPoint;
+    }, AWTEvent.MOUSE_MOTION_EVENT_MASK);
   }
 
   public void setItem(Item aItem)
@@ -66,5 +60,4 @@ public class CursorPane extends JComponent
     item = aItem;
     repaint();
   }
-
 }
