@@ -1,12 +1,16 @@
 package engine;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import userInterFace.Cabinet;
 import userInterFace.DisplayPanel;
 import userInterFace.Drawer;
 import userInterFace.Freezer;
 import userInterFace.Slot;
+import userInterFace.TextRenderer;
 import userInterFace.Viewport;
 import userInterFace.Window;
 import userInterFace.GameListener;
@@ -50,6 +54,19 @@ public class Engine
 
     for (int i= 0; i < tempSlotList.length; i += 2) 
       tempItemList[i] = new Item(Color.red);
+    
+    
+    for (int i = 0; i < tempSlotList.length; i++)
+    {
+      BufferedImage tempBufferedImage = (BufferedImage) tempItemList[i].getImage(); 
+      Graphics tempGraphics = tempBufferedImage.getGraphics();
+      TextRenderer.draw((Graphics2D) tempGraphics, "" + i, 64, 64, 30);
+      tempGraphics.dispose();
+      tempItemList[i].setImage(tempBufferedImage);
+    }
+    
+    
+    
     
     inventoryManager.setHolder(window.getCursorPane());
     

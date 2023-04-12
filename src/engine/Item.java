@@ -15,10 +15,10 @@ public class Item
 
   public Item(Color aColor)
   {
-    BufferedImage tempBufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    BufferedImage tempBufferedImage = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
     Graphics tempGraphics = tempBufferedImage.getGraphics();
     tempGraphics.setColor(aColor);
-    tempGraphics.fillRect(0, 0, 1, 1);
+    tempGraphics.fillRect(0, 0, 64, 64);
     tempGraphics.dispose();
     image = (Image) tempBufferedImage;
   }
@@ -44,6 +44,11 @@ public class Item
   public Image getImage()
   {
     return image;
+  }
+
+  public void setImage(Image aImage)
+  {
+    image = aImage;
   }
 
 }
