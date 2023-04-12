@@ -32,16 +32,15 @@ public class Engine
 
     display.getDialogueBox(DisplayPanel.SOUTH).speak("This is a test");
     display.getDialogueBox(DisplayPanel.EAST).speak("~");
-    
 
-    tempSceneManager.addScene(new Cabinet());
-    tempSceneManager.setActive(0);
+    Cabinet cabinet = new Cabinet();
+
+    tempSceneManager.addScene(cabinet);
     tempSceneManager.addScene(new Freezer());
-
     tempSceneManager.addScene(new Cabinet());
-    tempSceneManager.getTab(2).setUnlocked(false);
 
-    window.repaint();
+    tempSceneManager.setActive(0);
+    tempSceneManager.getTab(2).setUnlocked(false);
 
     Drawer tempDrawer = window.getViewport().getLineEndDrawer();
     Slot[] tempSlotList = tempDrawer.getSlots();
@@ -52,26 +51,23 @@ public class Engine
       tempItemList[i] = new Item(Color.green);
     }
 
-    for (int i= 0; i < tempSlotList.length; i += 2) 
+    for (int i = 0; i < tempSlotList.length; i += 2)
       tempItemList[i] = new Item(Color.red);
-    
-    
+
     for (int i = 0; i < tempSlotList.length; i++)
     {
-      BufferedImage tempBufferedImage = (BufferedImage) tempItemList[i].getImage(); 
+      BufferedImage tempBufferedImage = (BufferedImage) tempItemList[i].getImage();
       Graphics tempGraphics = tempBufferedImage.getGraphics();
       TextRenderer.draw((Graphics2D) tempGraphics, "" + i, 64, 64, 30);
       tempGraphics.dispose();
       tempItemList[i].setImage(tempBufferedImage);
     }
-    
-    
-    
-    
+
     inventoryManager.setHolder(window.getCursorPane());
-    
+
     inventoryManager.makeInventory(tempSlotList).setItem(tempItemList);
     inventoryManager.makeInventory(tempViewport.getLineStartDrawer().getSlots());
+    inventoryManager.makeInventory(cabinet.getSlots());
 
     window.setGameListener(gameHandler);
   }

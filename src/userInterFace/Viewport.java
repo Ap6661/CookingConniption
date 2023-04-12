@@ -22,9 +22,11 @@ interface DrawerListener
 interface ViewportListener
 {
   void slotPressed(Drawer aDrawer, Slot aSlot);
+
+  void slotPressed(Slot aSlot);
 }
 
-public class Viewport extends JLayeredPane implements DrawerListener
+public class Viewport extends JLayeredPane implements DrawerListener, SceneListener
 {
   private static final long serialVersionUID = 1L;
   private JPanel drawerLayer = new JPanel(new BorderLayout(40, 40));
@@ -41,13 +43,12 @@ public class Viewport extends JLayeredPane implements DrawerListener
   {
     super();
     setLayout(new ViewportLayout());
-    
-    //add(holder);
+
+    // add(holder);
     add(drawerLayer);
     add(sceneLayer);
 
     setBackground(new Color(0, 0, 0, 0));
-    
 
     setOpaque(false);
     sceneLayer.setOpaque(false);
@@ -99,8 +100,12 @@ public class Viewport extends JLayeredPane implements DrawerListener
   public void setScene(Scene aScene)
   {
     if (activeScene != null)
+    {
+      activeScene.setSceneListener(null);
       sceneLayer.remove(activeScene);
+    }
     activeScene = aScene;
+    activeScene.setSceneListener(this);
     sceneLayer.add(activeScene);
     getParent().revalidate();
   }
@@ -198,6 +203,13 @@ public class Viewport extends JLayeredPane implements DrawerListener
   public void setViewportListener(ViewportListener aViewportListener)
   {
     this.viewportListener = aViewportListener;
+  }
+
+  @Override
+  public void slotPressed(Slot aSlot)
+  {
+    if (viewportListener != null)
+      this.viewportListener.slotPressed(aSlot);
   }
 }
 

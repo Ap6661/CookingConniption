@@ -2,6 +2,8 @@ package userInterFace;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,11 +12,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public abstract class Scene extends JPanel
+public abstract class Scene extends JPanel implements MouseListener
 {
   private static final long serialVersionUID = 1L;
   private BufferedImage background;
   private Color tabColor = Color.cyan;
+  private SceneListener sceneListener;
 
   public Scene()
   {
@@ -49,12 +52,53 @@ public abstract class Scene extends JPanel
     this.tabColor = tabColor;
   }
 
+  public void setSceneListener(SceneListener aSceneListener)
+  {
+    this.sceneListener = aSceneListener;
+  }
+
   @Override
   public void paintComponent(Graphics aGraphics)
   {
     if (background != null)
       aGraphics.drawImage(background, 40, 40, getWidth() - 80, getHeight() - 80, null);
     paintScene(aGraphics);
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e)
+  {
+    if (sceneListener != null)
+      sceneListener.slotPressed((Slot) e.getSource());
+
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+
   }
 
   abstract void paintScene(Graphics aGraphics);

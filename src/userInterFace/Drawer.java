@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import engine.Item;
 
 public class Drawer extends JPanel implements MouseListener
 {
@@ -65,11 +64,6 @@ public class Drawer extends JPanel implements MouseListener
     slotPanel.add(tempSlot);
     tempSlot.addMouseListener(this);
     return tempSlot;
-  }
-
-  public void setItem(int index, Item aItem)
-  {
-    slots[index].setItem(aItem);
   }
 
   public Slot[] getSlots()

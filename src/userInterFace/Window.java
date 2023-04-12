@@ -91,6 +91,13 @@ public class Window extends JFrame
       if (gameListener != null)
         gameListener.slotPressed(aSlot);
     }
+
+    @Override
+    public void slotPressed(Slot aSlot)
+    {
+      if (gameListener != null)
+        gameListener.slotPressed(aSlot);
+    }
   }
 
   public CursorPane getCursorPane()
