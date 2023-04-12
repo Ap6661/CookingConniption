@@ -28,7 +28,8 @@ public class Engine
 
     DisplayPanel display = window.getGameFrame().getDisplayPanel();
     Viewport tempViewport = window.getViewport();
-    SceneManager tempSceneManager = new SceneManager(tempViewport, window.getGameFrame().getTabBar());
+    SceneManager tempSceneManager = new SceneManager(tempViewport, window.getGameFrame().getTabBar(), inventoryManager);
+    inventoryManager.setHolder(window.getCursorPane());
 
     display.getDialogueBox(DisplayPanel.SOUTH).speak("This is a test");
     display.getDialogueBox(DisplayPanel.EAST).speak("~");
@@ -63,11 +64,8 @@ public class Engine
       tempItemList[i].setImage(tempBufferedImage);
     }
 
-    inventoryManager.setHolder(window.getCursorPane());
-
     inventoryManager.makeInventory(tempSlotList).setItem(tempItemList);
     inventoryManager.makeInventory(tempViewport.getLineStartDrawer().getSlots());
-    inventoryManager.makeInventory(cabinet.getSlots());
 
     window.setGameListener(gameHandler);
   }

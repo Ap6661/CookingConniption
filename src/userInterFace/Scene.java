@@ -1,6 +1,7 @@
 package userInterFace;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -18,6 +19,8 @@ public abstract class Scene extends JPanel implements MouseListener
   private BufferedImage background;
   private Color tabColor = Color.cyan;
   private SceneListener sceneListener;
+  protected Slot[] slots;
+  protected JPanel slotPanel;
 
   public Scene()
   {
@@ -40,6 +43,28 @@ public abstract class Scene extends JPanel implements MouseListener
       e.printStackTrace();
     }
     this.background = image;
+  }
+
+  private Slot addSlot()
+  {
+    Slot tempSlot = new Slot("X");
+    tempSlot.setPreferredSize(new Dimension(100, 100));
+    slotPanel.add(tempSlot);
+    tempSlot.addMouseListener(this);
+    return tempSlot;
+  }
+
+  public Slot[] getSlots()
+  {
+    return slots;
+  }
+
+  protected void addSlots(int length)
+  {
+    slots = new Slot[length];
+    for (int i = 0; i < length; i++)
+      slots[i] = addSlot();
+
   }
 
   public Color getTabColor()

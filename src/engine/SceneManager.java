@@ -15,16 +15,20 @@ public class SceneManager
   private TabBar tabbar;
   private Scene activeScene;
   private Viewport viewport;
+  private InventoryManager inventoryManager;
 
-  public SceneManager(Viewport aViewport, TabBar aTabBar)
+  public SceneManager(Viewport aViewport, TabBar aTabBar, InventoryManager aInventoryManager)
   {
     tabbar = aTabBar;
     viewport = aViewport;
+    inventoryManager = aInventoryManager;
   }
 
   public void addScene(Scene aScene)
   {
     sceneList.add(aScene);
+    if (aScene.getSlots() != null)
+      inventoryManager.makeInventory(aScene.getSlots());
     Tab tempTab = tabbar.addTab(aScene.getName());
     tempTab.setAction(new SwapScene(aScene));
     tempTab.setColor(aScene.getTabColor());
