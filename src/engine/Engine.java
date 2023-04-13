@@ -15,6 +15,7 @@ import userInterFace.TextRenderer;
 import userInterFace.Viewport;
 import userInterFace.Window;
 import userInterFace.GameListener;
+import userInterFace.PentagramScene;
 
 public class Engine
 {
@@ -44,6 +45,8 @@ public class Engine
 
 
     CraftingMonitor tempCraftingMonitor = new CraftingMonitor(tempSceneManager.addScene(new CraftingScene()));
+    
+    tempSceneManager.addScene(new PentagramScene());
     
     
     inventoryManager.addInventoryListener(tempCraftingMonitor);
