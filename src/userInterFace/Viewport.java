@@ -122,14 +122,14 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
     @Override
     public void mouseClicked(MouseEvent e)
     {
-      Drawer aDrawer = (Drawer) e.getSource();
-      aDrawer.setState(aDrawer.getState() != Drawer.OPENED ? Drawer.OPENED : Drawer.CLOSED);
-      aDrawer.revalidate();
     }
 
     @Override
     public void mousePressed(MouseEvent e)
     {
+      Drawer aDrawer = (Drawer) e.getSource();
+      aDrawer.setState(aDrawer.getState() != Drawer.OPENED ? Drawer.OPENED : Drawer.CLOSED);
+      aDrawer.revalidate();
     }
 
     @Override

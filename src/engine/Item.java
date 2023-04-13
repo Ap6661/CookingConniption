@@ -12,8 +12,9 @@ import javax.imageio.ImageIO;
 public class Item
 {
   private Image image;
+  private int itemID;
 
-  public Item(Color aColor)
+  public Item(Color aColor, int itemID)
   {
     BufferedImage tempBufferedImage = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
     Graphics tempGraphics = tempBufferedImage.getGraphics();
@@ -21,6 +22,12 @@ public class Item
     tempGraphics.fillRect(0, 0, 64, 64);
     tempGraphics.dispose();
     image = (Image) tempBufferedImage;
+    this.itemID = itemID;
+  }
+
+  public Item(Color aColor)
+  {
+    this(aColor, -1);
   }
 
   public Item(String path)
@@ -49,6 +56,11 @@ public class Item
   public void setImage(Image aImage)
   {
     image = aImage;
+  }
+
+  public int getID()
+  {
+    return this.itemID;
   }
 
 }

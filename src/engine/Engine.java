@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import userInterFace.Cabinet;
+import userInterFace.CraftingScene;
 import userInterFace.DisplayPanel;
 import userInterFace.Drawer;
 import userInterFace.Freezer;
@@ -40,6 +41,14 @@ public class Engine
     tempSceneManager.addScene(new Freezer());
     tempSceneManager.addScene(new Cabinet());
 
+
+
+    CraftingMonitor tempCraftingMonitor = new CraftingMonitor(tempSceneManager.addScene(new CraftingScene()));
+    
+    
+    inventoryManager.addInventoryListener(tempCraftingMonitor);
+
+
     tempSceneManager.setActive(0);
     tempSceneManager.getTab(2).setUnlocked(false);
 
@@ -49,11 +58,11 @@ public class Engine
 
     for (int i = 0; i < tempSlotList.length; i++)
     {
-      tempItemList[i] = new Item(Color.green);
+      tempItemList[i] = new Item(Color.green, i);
     }
 
     for (int i = 0; i < tempSlotList.length; i += 2)
-      tempItemList[i] = new Item(Color.red);
+      tempItemList[i] = new Item(Color.red, i);
 
     for (int i = 0; i < tempSlotList.length; i++)
     {

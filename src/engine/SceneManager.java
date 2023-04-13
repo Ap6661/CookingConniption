@@ -24,15 +24,16 @@ public class SceneManager
     inventoryManager = aInventoryManager;
   }
 
-  public void addScene(Scene aScene)
+  public Inventory addScene(Scene aScene)
   {
     sceneList.add(aScene);
-    if (aScene.getSlots() != null)
-      inventoryManager.makeInventory(aScene.getSlots());
     Tab tempTab = tabbar.addTab(aScene.getName());
     tempTab.setAction(new SwapScene(aScene));
     tempTab.setColor(aScene.getTabColor());
     tabList.add(tempTab);
+    if (aScene.getSlots() != null)
+      return inventoryManager.makeInventory(aScene.getSlots());
+    return null;
   }
 
   public void setActive(Scene aScene)

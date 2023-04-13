@@ -8,8 +8,10 @@ import userInterFace.Slot;
 public class InventoryManager
 {
   private ArrayList<Inventory> inventories = new ArrayList<Inventory>();
+  private ArrayList<InventoryListener> listeners = new ArrayList<InventoryListener>();
   private CursorPane holder;
   private Item heldItem;
+  private InventoryHandler inventoryHandler = new InventoryHandler(); 
 
   public void setHolder(CursorPane aCursorPane)
   {
@@ -19,6 +21,7 @@ public class InventoryManager
   public void addInventory(Inventory aInventory)
   {
     inventories.add(aInventory);
+    aInventory.setInventoryListener(inventoryHandler);
   }
 
   public Inventory makeInventory(Slot[] aSlotList)
@@ -46,4 +49,35 @@ public class InventoryManager
     holder.setItem(aItem);
   }
 
+  public void addInventoryListener(InventoryListener aInventoryListener)
+  {
+    listeners.add(aInventoryListener);
+  }
+
+  public void removeInventoryListener(InventoryListener aInventoryListener)
+  {
+    listeners.remove(aInventoryListener);
+  }
+
+  public class InventoryHandler implements InventoryListener
+  {
+    @Override
+    public void onItemAdded(Inventory aInventory, Item aItem)
+    {
+      for (int i = 0; i < listeners.size(); i++)
+      {
+        listeners.get(i).onItemAdded(aInventory, aItem);
+      }
+    }
+
+    @Override
+    public void onItemRemoved(Inventory aInventory, Item aItem)
+    {
+      for (int i = 0; i < listeners.size(); i++)
+      {
+        listeners.get(i).onItemRemoved(aInventory, aItem);
+
+      }
+    }
+  }
 }

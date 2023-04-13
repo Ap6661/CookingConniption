@@ -9,6 +9,7 @@ public class Inventory
   private Slot[] slots;
   private Item[] items;
   private int length;
+  private InventoryListener listener;
 
   public Inventory(int length)
   {
@@ -20,6 +21,11 @@ public class Inventory
   public boolean contains(Slot aSlot)
   {
     return Arrays.asList(slots).contains(aSlot);
+  }
+
+  public int getLength()
+  {
+    return length;
   }
 
   public Item getItem(int index)
@@ -57,15 +63,21 @@ public class Inventory
 
   public void setItem(int index, Item aItem)
   {
+    Item tempItem = items[index];
     items[index] = aItem;
     slots[index].setItem(aItem);
+
+    if (listener != null)
+      if (aItem != null)
+        listener.onItemAdded(this, aItem);
+      else if (tempItem != null)
+        listener.onItemRemoved(this, tempItem);
     updateOutput();
   }
-  
-  public void setItem(Slot aSlot, Item aItem) {
-    items[indexOfSlot(aSlot)] = aItem;
-    aSlot.setItem(aItem);
-    updateOutput();
+
+  public void setItem(Slot aSlot, Item aItem)
+  {
+    setItem(indexOfSlot(aSlot), aItem);
   }
 
   public void setItem(Item[] aItemList)
@@ -87,4 +99,8 @@ public class Inventory
     }
   }
 
+  public void setInventoryListener(InventoryListener aInventoryListener)
+  {
+    listener = aInventoryListener;
+  }
 }
