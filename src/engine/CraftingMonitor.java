@@ -15,7 +15,6 @@ public class CraftingMonitor extends InventoryMonitor
   @Override
   void onItemAdded(Item aItem)
   {
-    System.out.println("Item added: " + aItem.getID());
 
     boolean isIncorrect = false;
 
@@ -37,6 +36,5 @@ public class CraftingMonitor extends InventoryMonitor
   @Override
   void onItemRemoved(Item aItem)
   {
-    System.out.println("Item removed: " + aItem.getID());
   }
 }
