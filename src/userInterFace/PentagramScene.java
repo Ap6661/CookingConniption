@@ -9,7 +9,6 @@ import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
 
-
 public class PentagramScene extends Scene
 {
   private static final long serialVersionUID = 1L;
@@ -17,7 +16,7 @@ public class PentagramScene extends Scene
   public PentagramScene()
   {
     this.setLayout(new CardLayout());
-    // this.setBackgroundPath("res/Pentagram.png");
+    this.setBackgroundPath("res/Pentagram.png");
     this.setName("pent");
 
     slotPanel = new JPanel(new PentagramLayout());
@@ -65,7 +64,7 @@ public class PentagramScene extends Scene
       Component[] aComponentList = parent.getComponents();
       for (int i = 0; i < aComponentList.length; i++)
       {
-        double angle = ((double) i / aComponentList.length) * 360;
+        double angle = ((double) (i - 3) / aComponentList.length) * 360;
         angle -= 18;
         angle -= 180;
         angle = angle * Math.PI / 180;

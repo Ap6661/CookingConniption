@@ -45,11 +45,11 @@ public class Engine
 
 
     CraftingMonitor tempCraftingMonitor = new CraftingMonitor(tempSceneManager.addScene(new CraftingScene()));
-    
-    tempSceneManager.addScene(new PentagramScene());
+    PentagramMonitor tempPentagramMonitor = new PentagramMonitor(tempSceneManager.addScene(new PentagramScene()));
     
     
     inventoryManager.addInventoryListener(tempCraftingMonitor);
+    inventoryManager.addInventoryListener(tempPentagramMonitor);
 
 
     tempSceneManager.setActive(0);
