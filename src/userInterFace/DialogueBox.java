@@ -16,7 +16,7 @@ public class DialogueBox extends JPanel
     super();
     this.setPreferredSize(new Dimension(100, 100));
   }
-  
+
   public Message speak(String message)
   {
     return speak(new Message(message));
@@ -26,6 +26,11 @@ public class DialogueBox extends JPanel
   {
     this.message = aMessage;
     return aMessage;
+  }
+
+  public void clear()
+  {
+    this.message = null;
   }
 
   @Override

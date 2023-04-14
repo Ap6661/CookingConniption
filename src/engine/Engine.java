@@ -16,16 +16,17 @@ import userInterFace.Viewport;
 import userInterFace.Window;
 import userInterFace.GameListener;
 import userInterFace.PentagramScene;
+import userInterFace.Scene;
 
 public class Engine
 {
 
   private static GameHandler gameHandler = new GameHandler();
   private static InventoryManager inventoryManager = new InventoryManager();
+  private static Window window = new Window();
 
   public static void main(String[] args)
   {
-    Window window = new Window();
     window.setVisible(true);
 
     DisplayPanel display = window.getGameFrame().getDisplayPanel();
@@ -33,7 +34,6 @@ public class Engine
     SceneManager tempSceneManager = new SceneManager(tempViewport, window.getGameFrame().getTabBar(), inventoryManager);
     inventoryManager.setHolder(window.getCursorPane());
 
-    display.getDialogueBox(DisplayPanel.SOUTH).speak("This is a test");
     display.getDialogueBox(DisplayPanel.EAST).speak("~");
 
     Cabinet cabinet = new Cabinet();
@@ -48,14 +48,28 @@ public class Engine
         tempCraftingScene);
 
     RecipeManager recipeManager = RecipeManager.getCurrentRecipeManager();
-
-    int[] r = { 0, 1, 2, 3, 4, 5, 6, 7 };
-
-    recipeManager.addRecipe(tempCraftingScene, new Recipe(r, false));
+    recipeManager.addListener(new GameHandler());
+    {
+      int[] r = { 0, 1, 2, 3, 4, 5, 6, 7 };
+      Recipe tempRecipe = new Recipe(r, false, 0);
+      recipeManager.addRecipe(tempCraftingScene, tempRecipe);
+    }
+    {
+      int[] r = { 0, 1, 2 };
+      Recipe tempRecipe = new Recipe(r, true, 1);
+      recipeManager.addRecipe(tempCraftingScene, tempRecipe);
+    }
 
     PentagramScene tempPentagramScene = new PentagramScene();
     tempSceneManager.addScene(tempPentagramScene);
-    PentagramMonitor tempPentagramMonitor = new PentagramMonitor(tempSceneManager.getInventory(tempPentagramScene));
+    PentagramMonitor tempPentagramMonitor = new PentagramMonitor(tempSceneManager.getInventory(tempPentagramScene),
+        tempPentagramScene);
+
+    {
+      int[] r = { 0, 1, 2, 3, 4 };
+      Recipe tempRecipe = new Recipe(r, false, 666);
+      recipeManager.addRecipe(tempPentagramScene, tempRecipe);
+    }
 
     inventoryManager.addInventoryListener(tempCraftingMonitor);
     inventoryManager.addInventoryListener(tempPentagramMonitor);
@@ -90,7 +104,7 @@ public class Engine
     window.setGameListener(gameHandler);
   }
 
-  private static class GameHandler implements GameListener
+  private static class GameHandler implements GameListener, RecipeListener
   {
     @Override
     public void slotPressed(Slot aSlot)
@@ -98,6 +112,19 @@ public class Engine
       Inventory tempInventory = inventoryManager.findContainingInventory(aSlot);
       Item tempItem = tempInventory.getItem(aSlot);
       inventoryManager.remove(tempInventory, aSlot, tempItem);
+    }
+
+    @Override
+    public void onCrafted(Scene aScene, Recipe aRecipe)
+    {
+      window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH).speak("Recipe Number: " + aRecipe.getID());
+    }
+
+    @Override
+    public void onInvalidRecipe(Scene aScene)
+    {
+      window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH).clear();
+      
     }
   }
 }

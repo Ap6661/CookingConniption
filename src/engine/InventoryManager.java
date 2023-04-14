@@ -8,8 +8,6 @@ import userInterFace.Slot;
 
 public class InventoryManager
 {
-  // private HashMap<Inventory,Scene> inventories = new
-  // HashMap<Inventory,Scene>();
   private ArrayList<Inventory> inventories = new ArrayList<Inventory>();
   private ArrayList<InventoryListener> listeners = new ArrayList<InventoryListener>();
   private CursorPane holder;

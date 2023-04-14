@@ -18,12 +18,12 @@ public class CraftingMonitor extends InventoryMonitor
   @Override
   void onItemAdded(Item aItem)
   {
-    if (RecipeManager.getCurrentRecipeManager().isValidRecipe(scene, inventory.asArray()))
-      System.out.println("Recipe Correct");
+    RecipeManager.getCurrentRecipeManager().checkRecipe(scene, inventory.asIDArray());
   }
 
   @Override
   void onItemRemoved(Item aItem)
   {
+    RecipeManager.getCurrentRecipeManager().checkRecipe(scene, inventory.asIDArray());
   }
 }

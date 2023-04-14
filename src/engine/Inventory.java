@@ -42,12 +42,17 @@ public class Inventory
   {
     return this.items.clone();
   }
-  
+
   public int[] asIDArray()
   {
     int[] tempIntList = new int[items.length];
     for (int i = 0; i < items.length; i++)
-      tempIntList[i] = items[i].getID();
+    {
+      if (items[i] != null)
+        tempIntList[i] = items[i].getID();
+      else
+        tempIntList[i] = -1;
+    }
     return tempIntList;
   }
 

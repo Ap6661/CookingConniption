@@ -1,17 +1,22 @@
 package engine;
 
-import userInterFace.Scene;
+import java.util.Arrays;
 
-public class Recipe implements RecipeListener
+public class Recipe
 {
   private int[] ingredients;
   private boolean isShapeless;
-  private RecipeListener listener;
+  private int ID;
 
-  public Recipe(int[] aItemList, boolean isShapeless)
+  public Recipe(int[] aItemList, boolean isShapeless, int ID)
   {
-    ingredients = aItemList;
     this.isShapeless = isShapeless;
+    ingredients = aItemList;
+
+    if (isShapeless)
+      Arrays.sort(ingredients);
+
+    this.ID = ID;
   }
 
   public boolean isShapeless()
@@ -24,15 +29,8 @@ public class Recipe implements RecipeListener
     return ingredients.clone();
   }
 
-  public void setListener(RecipeListener listener)
+  public int getID()
   {
-    this.listener = listener;
-  }
-
-  @Override
-  public void onCrafted(Scene aScene, Recipe aRecipe)
-  {
-    if (listener != null)
-      listener.onCrafted(aScene, aRecipe);
+    return ID;
   }
 }
