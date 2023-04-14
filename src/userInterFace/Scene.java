@@ -16,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 public abstract class Scene extends JPanel implements MouseListener
 {
   private static final long serialVersionUID = 1L;
-  private BufferedImage background;
+  protected BufferedImage background;
   private Color tabColor = Color.cyan;
   private SceneListener sceneListener;
   protected Slot[] slots;

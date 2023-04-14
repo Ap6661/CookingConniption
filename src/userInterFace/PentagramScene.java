@@ -1,15 +1,14 @@
 package userInterFace;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 public class PentagramScene extends Scene
 {
@@ -18,8 +17,9 @@ public class PentagramScene extends Scene
   public PentagramScene()
   {
     this.setLayout(new CardLayout());
+    // this.setBackgroundPath("res/Pentagram.png");
     this.setName("pent");
-    this.setTabColor(Color.yellow);
+
     slotPanel = new JPanel(new PentagramLayout());
     slotPanel.setOpaque(false);
     add(slotPanel);
@@ -61,8 +61,7 @@ public class PentagramScene extends Scene
     public void layoutContainer(Container parent)
     {
       int componentSize = 80;
-      
-      
+
       Component[] aComponentList = parent.getComponents();
       for (int i = 0; i < aComponentList.length; i++)
       {
@@ -71,10 +70,10 @@ public class PentagramScene extends Scene
         angle -= 180;
         angle = angle * Math.PI / 180;
 
-        // Set the magnitude of Vector 
+        // Set the magnitude of Vector
         double vectorX = Math.cos(angle) * 0.35;
         double vectorY = Math.sin(angle) * 0.35;
-        
+
         // Apply it into the local space of the parent
         int x = (int) (parent.getWidth() * vectorX);
         int y = (int) (parent.getHeight() * vectorY);
