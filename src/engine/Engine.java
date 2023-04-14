@@ -42,15 +42,23 @@ public class Engine
     tempSceneManager.addScene(new Freezer());
     tempSceneManager.addScene(new Cabinet());
 
+    CraftingScene tempCraftingScene = new CraftingScene();
+    tempSceneManager.addScene(tempCraftingScene);
+    CraftingMonitor tempCraftingMonitor = new CraftingMonitor(tempSceneManager.getInventory(tempCraftingScene),
+        tempCraftingScene);
 
+    RecipeManager recipeManager = RecipeManager.getCurrentRecipeManager();
 
-    CraftingMonitor tempCraftingMonitor = new CraftingMonitor(tempSceneManager.addScene(new CraftingScene()));
-    PentagramMonitor tempPentagramMonitor = new PentagramMonitor(tempSceneManager.addScene(new PentagramScene()));
-    
-    
+    int[] r = { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+    recipeManager.addRecipe(tempCraftingScene, new Recipe(r, false));
+
+    PentagramScene tempPentagramScene = new PentagramScene();
+    tempSceneManager.addScene(tempPentagramScene);
+    PentagramMonitor tempPentagramMonitor = new PentagramMonitor(tempSceneManager.getInventory(tempPentagramScene));
+
     inventoryManager.addInventoryListener(tempCraftingMonitor);
     inventoryManager.addInventoryListener(tempPentagramMonitor);
-
 
     tempSceneManager.setActive(0);
     tempSceneManager.getTab(2).setUnlocked(false);

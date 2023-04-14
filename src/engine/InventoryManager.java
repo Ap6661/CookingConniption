@@ -3,15 +3,18 @@ package engine;
 import java.util.ArrayList;
 
 import userInterFace.CursorPane;
+import userInterFace.Scene;
 import userInterFace.Slot;
 
 public class InventoryManager
 {
+  // private HashMap<Inventory,Scene> inventories = new
+  // HashMap<Inventory,Scene>();
   private ArrayList<Inventory> inventories = new ArrayList<Inventory>();
   private ArrayList<InventoryListener> listeners = new ArrayList<InventoryListener>();
   private CursorPane holder;
   private Item heldItem;
-  private InventoryHandler inventoryHandler = new InventoryHandler(); 
+  private InventoryHandler inventoryHandler = new InventoryHandler();
 
   public void setHolder(CursorPane aCursorPane)
   {
@@ -19,6 +22,11 @@ public class InventoryManager
   }
 
   public void addInventory(Inventory aInventory)
+  {
+    this.addInventory(aInventory, null);
+  }
+
+  public void addInventory(Inventory aInventory, Scene aScene)
   {
     inventories.add(aInventory);
     aInventory.setInventoryListener(inventoryHandler);

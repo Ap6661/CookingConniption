@@ -2,6 +2,8 @@ package engine;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.AbstractAction;
 import userInterFace.Scene;
 import userInterFace.Tab;
@@ -10,6 +12,7 @@ import userInterFace.Viewport;
 
 public class SceneManager
 {
+  private HashMap<Scene, Inventory> inventoryList = new HashMap<Scene, Inventory>();
   private ArrayList<Scene> sceneList = new ArrayList<Scene>();
   private ArrayList<Tab> tabList = new ArrayList<Tab>();
   private TabBar tabbar;
@@ -24,7 +27,7 @@ public class SceneManager
     inventoryManager = aInventoryManager;
   }
 
-  public Inventory addScene(Scene aScene)
+  public void addScene(Scene aScene)
   {
     sceneList.add(aScene);
     Tab tempTab = tabbar.addTab(aScene.getName());
@@ -32,8 +35,7 @@ public class SceneManager
     tempTab.setColor(aScene.getTabColor());
     tabList.add(tempTab);
     if (aScene.getSlots() != null)
-      return inventoryManager.makeInventory(aScene.getSlots());
-    return null;
+      inventoryList.put(aScene, inventoryManager.makeInventory(aScene.getSlots()));
   }
 
   public void setActive(Scene aScene)
@@ -62,6 +64,11 @@ public class SceneManager
   {
     return getTab(sceneList.indexOf(aScene));
 
+  }
+
+  public Inventory getInventory(Scene aScene)
+  {
+    return (Inventory) inventoryList.get(aScene);
   }
 
   private class SwapScene extends AbstractAction

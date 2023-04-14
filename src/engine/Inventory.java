@@ -38,6 +38,19 @@ public class Inventory
     return getItem(Arrays.asList(slots).indexOf(aSlot));
   }
 
+  public Item[] asArray()
+  {
+    return this.items.clone();
+  }
+  
+  public int[] asIDArray()
+  {
+    int[] tempIntList = new int[items.length];
+    for (int i = 0; i < items.length; i++)
+      tempIntList[i] = items[i].getID();
+    return tempIntList;
+  }
+
   public int indexOfItem(Item aItem)
   {
     return Arrays.asList(items).indexOf(aItem);

@@ -3,8 +3,9 @@ package engine;
 public abstract class InventoryMonitor implements InventoryListener
 {
   private Inventory monitoredInventory;
-  
-  public InventoryMonitor(Inventory aInventory) {
+
+  public InventoryMonitor(Inventory aInventory)
+  {
     monitoredInventory = aInventory;
   }
 
