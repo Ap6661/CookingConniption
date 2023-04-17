@@ -100,9 +100,13 @@ public class Drawer extends JPanel implements MouseListener
     if (location.equals(BorderLayout.LINE_START))
     {
       background.paint(aGraphics, offset, 0, getWidth() - offset, getHeight());
+      if (state == CLOSED)
+        TextRenderer.draw(aGraphics, ">", getWidth() - 18, getHeight(), 30);
     } else
     {
       background.paint(aGraphics, 0, 0, getWidth() - offset, getHeight());
+      if (state == CLOSED)
+        TextRenderer.draw(aGraphics, "<", getWidth() + 18, getHeight(), 30);
     }
 
     super.paintComponent(aGraphics);

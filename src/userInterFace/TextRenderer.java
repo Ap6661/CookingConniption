@@ -3,6 +3,7 @@ package userInterFace;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
@@ -32,6 +33,16 @@ public class TextRenderer
   public static void draw(Graphics2D aGraphics2D, String text, int width, int height)
   {
     draw(aGraphics2D, text, width, height, 15);
+  }
+
+  public static void draw(Graphics aGraphics, String text, int width, int height)
+  {
+    draw((Graphics2D) aGraphics, text, width, height);
+  }
+
+  public static void draw(Graphics aGraphics, String text, int width, int height, int size)
+  {
+    draw((Graphics2D) aGraphics, text, width, height, size);
   }
 
   public static Rectangle2D getBounds(Graphics2D aGraphics2D, String text, int size)
