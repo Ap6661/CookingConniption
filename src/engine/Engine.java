@@ -1,9 +1,6 @@
 package engine;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 
 import userInterFace.Cabinet;
 import userInterFace.CraftingScene;
@@ -11,7 +8,6 @@ import userInterFace.DisplayPanel;
 import userInterFace.Drawer;
 import userInterFace.Freezer;
 import userInterFace.Slot;
-import userInterFace.TextRenderer;
 import userInterFace.Viewport;
 import userInterFace.Window;
 import userInterFace.GameListener;
@@ -29,23 +25,14 @@ public class Engine
   {
     window.setVisible(true);
 
-    DisplayPanel display = window.getGameFrame().getDisplayPanel();
     Viewport tempViewport = window.getViewport();
     SceneManager tempSceneManager = new SceneManager(tempViewport, window.getGameFrame().getTabBar(), inventoryManager);
     inventoryManager.setHolder(window.getCursorPane());
 
-    display.getDialogueBox(DisplayPanel.EAST).speak("~");
+    addScenes(tempSceneManager);
+    Scene tempCraftingScene = addScene(tempSceneManager, CraftingScene.class, CraftingMonitor.class);
+    Scene tempPentagramScene = addScene(tempSceneManager, PentagramScene.class, PentagramMonitor.class);
 
-    Cabinet cabinet = new Cabinet();
-
-    tempSceneManager.addScene(cabinet);
-    tempSceneManager.addScene(new Freezer());
-    tempSceneManager.addScene(new Cabinet());
-
-    CraftingScene tempCraftingScene = new CraftingScene();
-    tempSceneManager.addScene(tempCraftingScene);
-    CraftingMonitor tempCraftingMonitor = new CraftingMonitor(tempSceneManager.getInventory(tempCraftingScene),
-        tempCraftingScene);
 
     RecipeManager recipeManager = RecipeManager.getCurrentRecipeManager();
     recipeManager.addListener(new GameHandler());
@@ -60,49 +47,64 @@ public class Engine
       recipeManager.addRecipe(tempCraftingScene, tempRecipe);
     }
 
-    PentagramScene tempPentagramScene = new PentagramScene();
-    tempSceneManager.addScene(tempPentagramScene);
-    PentagramMonitor tempPentagramMonitor = new PentagramMonitor(tempSceneManager.getInventory(tempPentagramScene),
-        tempPentagramScene);
-
     {
       int[] r = { 0, 1, 2, 3, 4 };
       Recipe tempRecipe = new Recipe(r, false, 666);
       recipeManager.addRecipe(tempPentagramScene, tempRecipe);
     }
 
-    inventoryManager.addInventoryListener(tempCraftingMonitor);
-    inventoryManager.addInventoryListener(tempPentagramMonitor);
-
     tempSceneManager.setActive(0);
-    tempSceneManager.getTab(2).setUnlocked(false);
 
     Drawer tempDrawer = window.getViewport().getLineEndDrawer();
     Slot[] tempSlotList = tempDrawer.getSlots();
-    Item[] tempItemList = new Item[tempSlotList.length];
-
-    for (int i = 0; i < tempSlotList.length; i++)
-    {
-      tempItemList[i] = new Item(Color.green, i);
-    }
-
-    for (int i = 0; i < tempSlotList.length; i += 2)
-      tempItemList[i] = new Item(Color.red, i);
-
-    for (int i = 0; i < tempSlotList.length; i++)
-    {
-      BufferedImage tempBufferedImage = (BufferedImage) tempItemList[i].getImage();
-      Graphics tempGraphics = tempBufferedImage.getGraphics();
-      TextRenderer.draw((Graphics2D) tempGraphics, "" + i, 64, 64, 30);
-      tempGraphics.dispose();
-      tempItemList[i].setImage(tempBufferedImage);
-    }
+    Item[] tempItemList = ItemFactory.makeItemList(0, tempSlotList.length);
 
     inventoryManager.makeInventory(tempSlotList).setItem(tempItemList);
     inventoryManager.makeInventory(tempViewport.getLineStartDrawer().getSlots());
 
     window.setGameListener(gameHandler);
   }
+
+  private static void addScenes(SceneManager aSceneManager)
+  {
+    aSceneManager.addScene(new Cabinet());
+    aSceneManager.addScene(new Freezer());
+  }
+
+  private static <S extends Scene, M extends InventoryMonitor> S addScene(SceneManager aSceneManager, Class<S> aScene,
+      Class<M> aMonitor)
+  {
+    S tempScene = null;
+
+    try
+    {
+      tempScene = aScene.getConstructor().newInstance();
+    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+        | NoSuchMethodException | SecurityException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+
+    aSceneManager.addScene(tempScene);
+    @SuppressWarnings("rawtypes")
+    Class[] paramaters = { Inventory.class, Scene.class };
+
+    M tempMonitor;
+    try
+    {
+      tempMonitor = aMonitor.getConstructor(paramaters).newInstance(aSceneManager.getInventory(tempScene), tempScene);
+    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+        | NoSuchMethodException | SecurityException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+
+    inventoryManager.addInventoryListener(tempMonitor);
+    return tempScene;
+  }
+
 
   private static class GameHandler implements GameListener, RecipeListener
   {
@@ -117,14 +119,15 @@ public class Engine
     @Override
     public void onCrafted(Scene aScene, Recipe aRecipe)
     {
-      window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH).speak("Recipe Number: " + aRecipe.getID());
+      window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH)
+          .speak("Recipe Number: " + aRecipe.getID());
     }
 
     @Override
     public void onInvalidRecipe(Scene aScene)
     {
       window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH).clear();
-      
+
     }
   }
 }

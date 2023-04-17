@@ -30,9 +30,10 @@ public class Item
     this(aColor, -1);
   }
 
-  public Item(String path)
+  public Item(String path, int itemID)
   {
     loadImage(path);
+    this.itemID = itemID;
   }
 
   private void loadImage(String path)
