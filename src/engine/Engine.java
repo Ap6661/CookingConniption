@@ -33,7 +33,6 @@ public class Engine
     Scene tempCraftingScene = addScene(tempSceneManager, CraftingScene.class, CraftingMonitor.class);
     Scene tempPentagramScene = addScene(tempSceneManager, PentagramScene.class, PentagramMonitor.class);
 
-
     RecipeManager recipeManager = RecipeManager.getCurrentRecipeManager();
     recipeManager.addListener(new GameHandler());
     {
@@ -105,6 +104,10 @@ public class Engine
     return tempScene;
   }
 
+  public static InventoryManager getInventoryManager()
+  {
+    return inventoryManager;
+  }
 
   private static class GameHandler implements GameListener, RecipeListener
   {

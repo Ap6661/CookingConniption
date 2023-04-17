@@ -11,11 +11,10 @@ public class ItemFactory
 {
 
   private static String[] resources = { 
-      "res/cover.png",
+      "res/knife.png",
       "res/toast.png",
       "res/lettuce.png",
       "res/tomato.png",
-      "res/knife.png",
       "res/sliced_tomato.png",
       };
 
