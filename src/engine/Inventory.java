@@ -61,6 +61,16 @@ public class Inventory
     return Arrays.asList(items).indexOf(aItem);
   }
 
+  public int indexOfItem(int aID)
+  {
+    for (int i = 0; i < items.length; i++)
+      if (items[i] != null)
+        if (items[i].getID() == aID)
+          return i;
+
+    return -1;
+  }
+
   public int indexOfSlot(Slot aSlot)
   {
     return Arrays.asList(slots).indexOf(aSlot);
@@ -103,6 +113,15 @@ public class Inventory
     if (aItemList.length == items.length)
       for (int i = 0; i < aItemList.length; i++)
         setItem(i, aItemList[i]);
+  }
+
+  public void clearItems()
+  {
+    for (int i = 0; i < length; i++)
+    {
+      items[i] = null;
+      slots[i].setItem(null);
+    }
   }
 
   public void updateOutput()

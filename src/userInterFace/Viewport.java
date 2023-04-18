@@ -25,7 +25,7 @@ interface ViewportListener
 
   void slotPressed(Slot aSlot);
 
-  void craftPressed();
+  void craftPressed(Scene aScene);
 }
 
 public class Viewport extends JLayeredPane implements DrawerListener, SceneListener
@@ -83,6 +83,11 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
     return tempDrawer;
   }
 
+  public CraftButton getCraftButton()
+  {
+    return craftButton;
+  }
+
   public JPanel getDrawerLayer()
   {
     return drawerLayer;
@@ -114,7 +119,7 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
     activeScene.setSceneListener(this);
     sceneLayer.add(activeScene);
 
-    craftButton.setVisible(aScene.isCrafting());
+    craftButton.setVisible(false);
 
     getParent().revalidate();
   }
@@ -225,7 +230,7 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
   public void craftPressed()
   {
     if (viewportListener != null)
-      this.viewportListener.craftPressed();
+      this.viewportListener.craftPressed(activeScene);
   }
 }
 

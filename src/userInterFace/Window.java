@@ -100,10 +100,10 @@ public class Window extends JFrame
     }
 
     @Override
-    public void craftPressed()
+    public void craftPressed(Scene aScene)
     {
       if (gameListener != null)
-        gameListener.craftPressed();
+        gameListener.craftPressed(aScene);
     }
   }
 

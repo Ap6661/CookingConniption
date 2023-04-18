@@ -4,5 +4,5 @@ public interface GameListener
 {
   void slotPressed(Slot aSlot);
 
-  void craftPressed();
+  void craftPressed(Scene aScene);
 }

@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import userInterFace.Cabinet;
 import userInterFace.CraftingScene;
-import userInterFace.DisplayPanel;
 import userInterFace.Drawer;
 import userInterFace.Freezer;
 import userInterFace.Slot;
@@ -20,18 +19,19 @@ public class Engine
   private static GameHandler gameHandler = new GameHandler();
   private static InventoryManager inventoryManager = new InventoryManager();
   private static Window window = new Window();
+  private static SceneManager sceneManager;
 
   public static void main(String[] args)
   {
     window.setVisible(true);
 
     Viewport tempViewport = window.getViewport();
-    SceneManager tempSceneManager = new SceneManager(tempViewport, window.getGameFrame().getTabBar(), inventoryManager);
+    sceneManager = new SceneManager(tempViewport, window.getGameFrame().getTabBar(), inventoryManager);
     inventoryManager.setHolder(window.getCursorPane());
 
-    addScenes(tempSceneManager);
-    Scene tempCraftingScene = addScene(tempSceneManager, CraftingScene.class, CraftingMonitor.class);
-    Scene tempPentagramScene = addScene(tempSceneManager, PentagramScene.class, PentagramMonitor.class);
+    addScenes(sceneManager);
+    Scene tempCraftingScene = addScene(sceneManager, CraftingScene.class, CraftingMonitor.class);
+    Scene tempPentagramScene = addScene(sceneManager, PentagramScene.class, PentagramMonitor.class);
 
     RecipeManager recipeManager = RecipeManager.getCurrentRecipeManager();
     recipeManager.addListener(new GameHandler());
@@ -41,7 +41,7 @@ public class Engine
       recipeManager.addRecipe(tempCraftingScene, tempRecipe);
     }
     {
-      int[] r = { 0, 1, 2 };
+      int[] r = { 0, 3 };
       Recipe tempRecipe = new Recipe(r, true, 1);
       recipeManager.addRecipe(tempCraftingScene, tempRecipe);
     }
@@ -52,7 +52,7 @@ public class Engine
       recipeManager.addRecipe(tempPentagramScene, tempRecipe);
     }
 
-    tempSceneManager.setActive(0);
+    sceneManager.setActive(0);
 
     Drawer tempDrawer = window.getViewport().getLineEndDrawer();
     Slot[] tempSlotList = tempDrawer.getSlots();
@@ -122,21 +122,35 @@ public class Engine
     @Override
     public void onCrafted(Scene aScene, Recipe aRecipe)
     {
-      window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH)
-          .speak("Recipe Number: " + aRecipe.getID());
+      window.getGameFrame().getDisplayPanel().getViewport().getCraftButton().setVisible(true);
     }
 
     @Override
     public void onInvalidRecipe(Scene aScene)
     {
-      window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH).clear();
-
+      window.getGameFrame().getDisplayPanel().getViewport().getCraftButton().setVisible(false);
     }
 
     @Override
-    public void craftPressed()
+    public void craftPressed(Scene aScene)
     {
-      System.out.println("Craft Pressed");
+      Inventory tempInventory = sceneManager.getInventory(aScene);
+      Recipe recipe = RecipeManager.getCurrentRecipeManager().getValidRecipe(aScene, tempInventory.asIDArray());
+
+      if (recipe != null)
+      {
+        
+        // Sliced Tomato
+        if (recipe.getID() == 1)
+        {
+          int index1 = tempInventory.indexOfItem(0);
+          int index2 = tempInventory.indexOfItem(3);
+          
+          tempInventory.clearItems();
+          tempInventory.setItem(index1, ItemFactory.makeItem(0));
+          tempInventory.setItem(index2, ItemFactory.makeItem(4));
+        }
+      }
     }
   }
 }
