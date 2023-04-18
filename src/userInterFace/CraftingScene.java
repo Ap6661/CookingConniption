@@ -18,6 +18,7 @@ public class CraftingScene extends Scene
     slotPanel.setOpaque(false);
     add(slotPanel);
     addSlots(9);
+    isCrafting = true;
   }
 
   @Override

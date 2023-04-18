@@ -132,6 +132,12 @@ public class Engine
       window.getGameFrame().getDisplayPanel().getDialogueBox(DisplayPanel.SOUTH).clear();
 
     }
+
+    @Override
+    public void craftPressed()
+    {
+      System.out.println("Craft Pressed");
+    }
   }
 }
 //

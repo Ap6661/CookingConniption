@@ -24,6 +24,8 @@ interface ViewportListener
   void slotPressed(Drawer aDrawer, Slot aSlot);
 
   void slotPressed(Slot aSlot);
+
+  void craftPressed();
 }
 
 public class Viewport extends JLayeredPane implements DrawerListener, SceneListener
@@ -31,6 +33,8 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
   private static final long serialVersionUID = 1L;
   private JPanel drawerLayer = new JPanel(new BorderLayout(40, 40));
   private JPanel sceneLayer = new JPanel(new CardLayout(30, 30));
+  private JPanel buttonLayer = new JPanel(new BorderLayout(40, 40));
+  private CraftButton craftButton = new CraftButton();
   private Scene activeScene;
 
   private Drawer lineStartDrawer;
@@ -44,14 +48,16 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
     super();
     setLayout(new ViewportLayout());
 
-    // add(holder);
     add(drawerLayer);
     add(sceneLayer);
 
-    setBackground(new Color(0, 0, 0, 0));
+    add(buttonLayer);
+    buttonLayer.add(craftButton, BorderLayout.PAGE_END);
+    craftButton.setSceneListener(this);
 
     setOpaque(false);
     sceneLayer.setOpaque(false);
+    buttonLayer.setOpaque(false);
     drawerLayer.setOpaque(false);
 
     lineStartDrawer = addDrawer(BorderLayout.LINE_START);
@@ -107,6 +113,9 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
     activeScene = aScene;
     activeScene.setSceneListener(this);
     sceneLayer.add(activeScene);
+
+    craftButton.setVisible(aScene.isCrafting());
+
     getParent().revalidate();
   }
 
@@ -210,6 +219,13 @@ public class Viewport extends JLayeredPane implements DrawerListener, SceneListe
   {
     if (viewportListener != null)
       this.viewportListener.slotPressed(aSlot);
+  }
+
+  @Override
+  public void craftPressed()
+  {
+    if (viewportListener != null)
+      this.viewportListener.craftPressed();
   }
 }
 

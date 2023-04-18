@@ -24,6 +24,7 @@ public class PentagramScene extends Scene
     add(slotPanel);
     addSlots(5);
 
+    isCrafting = true;
   }
 
   @Override

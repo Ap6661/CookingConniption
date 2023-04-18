@@ -21,6 +21,7 @@ public abstract class Scene extends JPanel implements MouseListener
   private SceneListener sceneListener;
   protected Slot[] slots;
   protected JPanel slotPanel;
+  protected boolean isCrafting = false;
 
   public Scene()
   {
@@ -43,6 +44,11 @@ public abstract class Scene extends JPanel implements MouseListener
       e.printStackTrace();
     }
     this.background = image;
+  }
+
+  public boolean isCrafting()
+  {
+    return this.isCrafting;
   }
 
   private Slot addSlot()
