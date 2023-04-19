@@ -37,14 +37,14 @@ public class CraftButton extends JPanel
     @Override
     public void mouseClicked(MouseEvent e)
     {
-      if (listener != null)
-        listener.craftPressed();
     }
 
     @Override
     public void mousePressed(MouseEvent e)
     {
       button.updateColor(new Color(200, 200, 200));
+      if (listener != null)
+        listener.craftPressed();
     }
 
     @Override
