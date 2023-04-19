@@ -1,22 +1,17 @@
 package userInterFace;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.JPanel;
-
-public class Freezer extends Scene
+public class Freezer extends Cabinet
 {
   private static final long serialVersionUID = 1L;
 
   public Freezer()
   {
     setBackgroundPath("res/Freezer.png");
-    setName("Freezer");
-
-    slotPanel = new JPanel();
-    slotPanel.setOpaque(false);
-    add(slotPanel);
-    addSlots(2);
+    setName("Fridge");
+    setTabColor(Color.cyan);
   }
 
   @Override

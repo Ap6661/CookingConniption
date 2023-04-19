@@ -1,6 +1,7 @@
 package userInterFace;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -17,7 +18,8 @@ public class PentagramScene extends Scene
   {
     this.setLayout(new CardLayout());
     this.setBackgroundPath("res/Pentagram.png");
-    this.setName("pent");
+    this.setName("Board");
+    this.setTabColor(Color.yellow);
 
     slotPanel = new JPanel(new PentagramLayout());
     slotPanel.setOpaque(false);

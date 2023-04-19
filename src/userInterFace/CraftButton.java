@@ -27,6 +27,12 @@ public class CraftButton extends JPanel
     button.addMouseListener(new CraftHandler());
   }
 
+  public void setVisible(boolean aBoolean)
+  {
+    super.setVisible(aBoolean);
+    button.updateColor(Color.white);
+  }
+
   public void setSceneListener(SceneListener aSceneListener)
   {
     this.listener = aSceneListener;

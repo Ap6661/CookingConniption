@@ -10,13 +10,8 @@ import userInterFace.TextRenderer;
 public class ItemFactory
 {
 
-  private static String[] resources = { 
-      "res/knife.png",
-      "res/toast.png",
-      "res/lettuce.png",
-      "res/tomato.png",
-      "res/sliced_tomato.png",
-      };
+  private static String[] resources = { "res/knife.png", "res/toast.png", "res/lettuce.png", "res/tomato.png",
+      "res/sliced_tomato.png", "res/uncooked_bacon.png", "res/bacon.png", };
 
   public static Item makeItem(int aID)
   {
@@ -36,6 +31,17 @@ public class ItemFactory
       tempItem.setImage(tempBufferedImage);
       return tempItem;
     }
+  }
+
+  public static Item[] makeItemList(int[] aIntList)
+  {
+    Item[] tempItemList = new Item[aIntList.length];
+
+    for (int i = 0; i < aIntList.length; i++)
+      if (aIntList[i] != -1)
+        tempItemList[i] = makeItem(aIntList[i]);
+
+    return tempItemList;
   }
 
   public static Item[] makeItemList(int minID, int maxID)
