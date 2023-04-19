@@ -38,7 +38,7 @@ public class Window extends JFrame
     cursorPane.setVisible(true);
 
     menu.addMenuItem("Play", new ToggleMenuAction());
-    menu.addMenuItem();
+    menu.addMenuItem("Settings");
     menu.addMenuItem("Exit").addActionListener((event) -> System.exit(0));
 
     Tab button = frame.getTabBar().addTab("Menu");
