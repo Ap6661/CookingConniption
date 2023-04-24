@@ -36,16 +36,10 @@ public class Engine
     RecipeManager recipeManager = RecipeManager.getCurrentRecipeManager();
     recipeManager.addListener(new GameHandler());
     {
-      int[] r = { 0, 1, 2, 3, 4, 5, 6, 7 };
-      Recipe tempRecipe = new Recipe(r, false, 0);
-      recipeManager.addRecipe(tempCraftingScene, tempRecipe);
-    }
-    {
       int[] r = { 0, 3 };
       Recipe tempRecipe = new Recipe(r, true, 1);
       recipeManager.addRecipe(tempCraftingScene, tempRecipe);
     }
-
     {
       int[] r = { 1, 1, 2, 4, 6 };
       Recipe tempRecipe = new Recipe(r, true, 666);
@@ -177,12 +171,19 @@ public class Engine
           ;
         }
 
-        // Skillet Test
+        // Cooking Bacon
         if (recipe.getID() == 2)
         {
           tempInventory.setItem(0, ItemFactory.makeItem(6));
           sceneManager.getTab(4).setUnlocked(true);
           ;
+        }
+
+        // BLT making Test
+        if (recipe.getID() == 666)
+        {
+          tempInventory.clearItems();
+          tempInventory.setItem(0, ItemFactory.makeItem(7));
         }
       }
     }

@@ -11,7 +11,7 @@ public class ItemFactory
 {
 
   private static String[] resources = { "res/knife.png", "res/toast.png", "res/lettuce.png", "res/tomato.png",
-      "res/sliced_tomato.png", "res/uncooked_bacon.png", "res/bacon.png", };
+      "res/sliced_tomato.png", "res/uncooked_bacon.png", "res/bacon.png", "res/blt.png", };
 
   public static Item makeItem(int aID)
   {
