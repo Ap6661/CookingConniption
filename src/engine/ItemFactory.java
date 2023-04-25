@@ -11,7 +11,7 @@ public class ItemFactory
 {
 
   private static String[] resources = { "res/knife.png", "res/toast.png", "res/lettuce.png", "res/tomato.png",
-      "res/sliced_tomato.png", "res/uncooked_bacon.png", "res/bacon.png", "res/blt.png", };
+      "res/sliced_tomato.png", "res/uncooked_bacon.png", "res/bacon.png", "res/blt.png", "res/plate.png", "res/plated_blt.png" };
 
   public static Item makeItem(int aID)
   {
@@ -49,10 +49,10 @@ public class ItemFactory
     if (minID > maxID)
       return null;
 
-    Item[] tempItemList = new Item[maxID - minID];
+    Item[] tempItemList = new Item[maxID - minID + 1];
 
-    for (int i = minID; i < maxID; i++)
-      tempItemList[i] = makeItem(i);
+    for (int i = minID; i <= maxID; i++)
+      tempItemList[i - minID] = makeItem(i);
 
     return tempItemList;
   }

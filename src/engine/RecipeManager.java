@@ -68,11 +68,10 @@ public class RecipeManager
 
   public Recipe getValidRecipe(Scene aScene, int[] aIDList)
   {
-    if (aIDList == null)
-      return null;
-
+    // Get the recipes for aScene
     ArrayList<Recipe> tempRecipeList = recipes.get(aScene);
 
+    // Exit if no recipes
     if (tempRecipeList == null)
       return null;
 
@@ -80,17 +79,22 @@ public class RecipeManager
 
     for (Recipe tempRecipe : tempRecipeList)
     {
-      int[] tempIDListPadded = Arrays.copyOf(tempRecipe.getIngredients(), aIDList.length);
 
+      // Padding the Recipe to fit the inventory
+      // -1 are empty slots
+      int[] tempIDListPadded = Arrays.copyOf(tempRecipe.getIngredients(), aIDList.length);
       Arrays.fill(tempIDListPadded, tempRecipe.getIngredients().length, aIDList.length, -1);
 
+      // Clone to not change the list in place
+      int[] tempIDList = aIDList;
       if (tempRecipe.isShapeless())
       {
-        Arrays.sort(aIDList);
+        tempIDList = tempIDList.clone();
+        Arrays.sort(tempIDList);
         Arrays.sort(tempIDListPadded);
       }
 
-      if (Arrays.equals(aIDList, tempIDListPadded))
+      if (Arrays.equals(tempIDList, tempIDListPadded))
       {
         tempMatchingRecipe = tempRecipe;
         break;

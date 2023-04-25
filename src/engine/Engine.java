@@ -1,6 +1,8 @@
 package engine;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+
 import userInterFace.Cabinet;
 import userInterFace.CraftingScene;
 import userInterFace.Freezer;
@@ -50,15 +52,19 @@ public class Engine
       Recipe tempRecipe = new Recipe(r, false, 2);
       recipeManager.addRecipe(tempSkilletScene, tempRecipe);
     }
+    {
+      int[] r = new int[9];
+      Arrays.fill(r, -1);
+      r[4] = 7;
+      r[7] = 8;
+      Recipe tempRecipe = new Recipe(r, false, 4);
+      recipeManager.addRecipe(tempCraftingScene, tempRecipe);
+    }
 
     sceneManager.setActive(0);
 
-    // Drawer tempDrawer = window.getViewport().getLineEndDrawer();
-    // Slot[] tempSlotList = tempDrawer.getSlots();
-    // Item[] tempItemList = ItemFactory.makeItemList(0, tempSlotList.length);
-
     inventoryManager.makeInventory(tempViewport.getLineEndDrawer().getSlots());
-    inventoryManager.makeInventory(tempViewport.getLineStartDrawer().getSlots());
+    inventoryManager.makeInventory(tempViewport.getLineStartDrawer().getSlots()).setItem(0, ItemFactory.makeItem(8));
 
     window.setGameListener(gameHandler);
 
@@ -184,6 +190,13 @@ public class Engine
         {
           tempInventory.clearItems();
           tempInventory.setItem(0, ItemFactory.makeItem(7));
+        }
+
+        // Plating the BLT
+        if (recipe.getID() == 4)
+        {
+          tempInventory.clearItems();
+          tempInventory.setItem(7, ItemFactory.makeItem(9));
         }
       }
     }
