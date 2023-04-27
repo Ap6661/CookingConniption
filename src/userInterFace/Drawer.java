@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-
 public class Drawer extends JPanel implements MouseListener
 {
   private static final long serialVersionUID = 1L;
@@ -149,34 +148,3 @@ public class Drawer extends JPanel implements MouseListener
   }
 
 }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
